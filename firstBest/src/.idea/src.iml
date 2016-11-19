@@ -6,12 +6,12 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ProblemManager.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/DistanceFileParser.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/RandomGanerator.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Solution.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/DistanceFileParser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Solution.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ProblemManager.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/RandomGanerator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FileParser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FileParser.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

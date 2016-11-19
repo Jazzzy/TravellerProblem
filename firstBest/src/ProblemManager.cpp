@@ -3,7 +3,7 @@
 //
 
 #include "ProblemManager.hpp"
-#include "DistanceFileParser.h"
+#include "FileParser.h"
 #include <math.h>
 
 extern int sizeOfProblem;
@@ -26,7 +26,6 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
 
 ProblemManager::~ProblemManager() {
     delete this->distanceMatrix;
-    //TODO: Probably
     delete this->currentSolution;
 }
 
@@ -40,11 +39,12 @@ Solution *ProblemManager::getNextSolution() {
     printNeig(nextSolution);
 
     while (!pickSolution_FIRSTBETTER(this->currentSolution, nextSolution)) {
+        delete nextSolution;
         nextSolution = this->currentSolution->getNextNeighbour();
         if (nextSolution == nullptr) break;
         nextSolution->setCost(calculateCostFor(nextSolution));
-
         printNeig(nextSolution);
+
     }
 
     if (nextSolution == nullptr) {              //We have reached the final solution for this problem.
@@ -88,7 +88,7 @@ void ProblemManager::printSolution(Solution *solution) {
 
 void ProblemManager::printNeig(Solution *solution) {
     pair<int, int> p = solution->getGenePair();
-    cout << "\tVECINO V_" << neigNumber++ << " -> Intercambio: (" << p.first << ", " << p.second <<"); " ;
+    cout << "\tVECINO V_" << neigNumber++ << " -> Intercambio: (" << p.first << ", " << p.second << "); ";
     solution->print();
     cout << " " << solution->getCost() << "km" << endl;
 }

@@ -13,18 +13,27 @@
 
 #ifndef RANDOMGANERATOR_H
 #define RANDOMGANERATOR_H
+
 #include <utility>
+#include <vector>
 
 class RandomGanerator {
 public:
     RandomGanerator();
-    RandomGanerator(char * file);
-    int* getRandomArray();
-    std::pair<int,int> getRandomPair();
+
+    RandomGanerator(char *file);
+
+    int *getRandomArray();
+
+    std::pair<int, int> getRandomPair();
+
     virtual ~RandomGanerator();
+
 private:
-    bool readFromFile;
-    
+    std::vector<float> *randVec;
+
+    float getNextReadFloat();
+
 
 };
 

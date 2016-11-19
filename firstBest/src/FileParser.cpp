@@ -13,7 +13,7 @@
 
 
 
-#include "DistanceFileParser.h"
+#include "FileParser.h"
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
@@ -23,6 +23,7 @@ using std::cout;
 using std::endl;
 
 #include <fstream>
+
 using std::ifstream;
 
 
@@ -31,9 +32,9 @@ extern int sizeOfProblem;
 
 const int MAX_CHARS_PER_LINE = 512;
 const int MAX_TOKENS_PER_LINE = 20;
-const char* const DELIMITER = "\t";
+const char *const DELIMITER = "\t";
 
-void fillMatrix(char * path, LowerTriangularMatrix<int> *matrix) {
+void fillMatrix(char *path, LowerTriangularMatrix<int> *matrix) {
 
     ifstream inputStream;
     inputStream.open(path);
@@ -49,7 +50,7 @@ void fillMatrix(char * path, LowerTriangularMatrix<int> *matrix) {
 
         int n = 0;
 
-        const char* token[MAX_TOKENS_PER_LINE] = {};
+        const char *token[MAX_TOKENS_PER_LINE] = {};
 
         token[0] = strtok(buf, DELIMITER);
         if (token[0]) {
@@ -71,7 +72,47 @@ void fillMatrix(char * path, LowerTriangularMatrix<int> *matrix) {
 
 }
 
-int getSizeOfProblem(char * path){
+const int MAX_CHARS_PER_LINE2 = 64;
+const int MAX_TOKENS_PER_LINE2 = 2;
+const char *const DELIMITER2 = "\n";
+
+void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
+
+    ifstream inputStream;
+    inputStream.open(path);
+    if (!inputStream.good())
+        std::runtime_error("Could not open file");
+
+    int row = 1;
+
+    while (!inputStream.eof()) {
+
+        char buf[MAX_CHARS_PER_LINE2];
+        inputStream.getline(buf, MAX_CHARS_PER_LINE2);
+
+        int n = 0;
+
+        const char *token[MAX_TOKENS_PER_LINE2] = {};
+
+        token[0] = strtok(buf, DELIMITER2);
+        if (token[0]) {
+            for (n = 1; n < MAX_TOKENS_PER_LINE2; n++) {
+                token[n] = strtok(0, DELIMITER2);
+                if (!token[n]) break;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            vector->push_back(atof(token[i]));
+        }
+        row++;
+    }
+
+
+}
+
+
+int getSizeOfProblem(char *path) {
 
     ifstream inputStream;
     inputStream.open(path);

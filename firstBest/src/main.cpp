@@ -12,7 +12,7 @@
  */
 
 #include <cstdlib>
-#include "DistanceFileParser.h"
+#include "FileParser.h"
 #include "Solution.h"
 #include "RandomGanerator.h"
 #include "ProblemManager.hpp"
@@ -25,8 +25,6 @@ int maxNeig;
 
 int main(int argc, char **argv) {
 
-    cout << endl;
-    rGen = new RandomGanerator();
     ProblemManager *PM;
 
     if (argc < 2) {
@@ -34,22 +32,21 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (argc == 2) {                                                //We have the file with the distances
+    if (argc == 2) {                            //We have the file with the distances
+        rGen = new RandomGanerator();
+        PM = new ProblemManager(argv[1]);
+    } else if (argc == 3) {
+        rGen = new RandomGanerator(argv[2]);
         PM = new ProblemManager(argv[1]);
     }
 
-    //cout << "Size of problem: " << sizeOfProblem << endl;
-    //cout << "MAX NEIG: " << maxNeig << endl;
 
     Solution *currentSolution;
-    while ((currentSolution = PM->getNextSolution()) != nullptr) {
-        //currentSolution->print();
-    }
-    //cout << "Final Solution: " << endl << "\t";
-    //PM->getCurrentSolution()->print();
+    while ((currentSolution = PM->getNextSolution()) != nullptr);
+
 
     delete PM;
-
+    delete rGen;
 
     return 0;
 }

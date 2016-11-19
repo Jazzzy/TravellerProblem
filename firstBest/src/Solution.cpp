@@ -41,7 +41,7 @@ Solution::Solution(int *data, pair<int, int> p) {
 
 Solution::~Solution() {
     delete this->visitedNeig;
-    delete this->data;
+    free(this->data);
 }
 
 void Solution::print() {
@@ -54,10 +54,7 @@ void Solution::print() {
 
 Solution *Solution::getNextNeighbour() {
 
-
     if (currIte >= maxNeig) {
-        //cout << "posibilidades agotadas: " << this->currIte << endl;
-        //this->visitedNeig->printData();
         return nullptr;
     }
 
@@ -69,17 +66,13 @@ Solution *Solution::getNextNeighbour() {
     }
 
     currIte++;
-    //cout << "Setting element: " << p.first << "," << p.second << std::endl;
     this->visitedNeig->setElement((unsigned int) p.first, (unsigned int) p.second, true);
     int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
     memcpy(newData, this->data, sizeof(int) * (sizeOfProblem - 1));
     switchValues(newData, p);
     Solution *newSolution = new Solution(newData, p);
 
-
     return newSolution;
-
-    //switch values and generate new Solution.
 }
 
 
