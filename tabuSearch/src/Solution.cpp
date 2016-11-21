@@ -28,7 +28,7 @@ extern TabuList *tabuList;
 
 Solution::Solution() {
     this->data = rGen->getRandomArray();
-    this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
+    //this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
     this->cost = -1;
     this->currIter = 0;
     this->possiblePairs = tabuList->getAllValidPairs();
@@ -41,7 +41,7 @@ Solution::Solution() {
 
 Solution::Solution(int *data, pair<int, int> p) {
     this->data = data;
-    this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
+    //this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
     this->cost = -1;
     this->currIter = 0;
     this->genePair = p;
@@ -49,7 +49,8 @@ Solution::Solution(int *data, pair<int, int> p) {
 }
 
 Solution::~Solution() {
-    delete this->visitedNeig;
+    //this->visitedNeig->printData();
+    //delete this->visitedNeig;
     free(this->data);
 }
 
@@ -74,16 +75,15 @@ Solution *Solution::getNextNeighbour() {
 
     pair<int, int> p = this->possiblePairs.at(currIter);
 
-    cout << p.first << "," << p.second << endl;
+    //cout << p.first << "," << p.second << endl;
 
     //this->possiblePairs.erase(this->possiblePairs.begin() + currIter);
 
     currIter++;
 
+    //this->visitedNeig->setElement((unsigned int) p.first, (unsigned int) p.second, true);
 
-    this->visitedNeig->setElement((unsigned int) p.first, (unsigned int) p.second, true);
-
-    int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
+    int *newData = (int *)malloc(sizeof(int) * (sizeOfProblem - 1));
 
     memcpy(newData, this->data, sizeof(int) * (sizeOfProblem - 1));
 
@@ -151,12 +151,12 @@ pair<int, int> Solution::sortPair(pair<int, int> p) {
     return p;
 }
 
-bool Solution::isValidNeig(pair<int, int> p) {
+/*bool Solution::isValidNeig(pair<int, int> p) {
     if ((p.first == p.second))
         return false;
     bool b = this->visitedNeig->getElement((unsigned int) p.first, (unsigned int) p.second);
     return !b;
-}
+}*/
 
 void Solution::setCost(int cost) {
     this->cost = cost;

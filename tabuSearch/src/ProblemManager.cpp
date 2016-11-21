@@ -15,7 +15,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
 
     sizeOfProblem = getSizeOfProblem(pathOfDistances);
     maxNeig = (int) floor((sizeOfProblem - 1) * (sizeOfProblem - 2)) / 2;
-    tabuList = new TabuList(sizeOfProblem);
+    tabuList = new TabuList(sizeOfProblem - 1);
 
     this->stepsWithoutImprovements = 0;
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
@@ -23,6 +23,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
 
     this->currentSolution = new Solution();
     this->currentSolution->setCost(calculateCostFor(this->currentSolution));
+
     this->solutionNumber = 0;
     this->bestSolutionEver = currentSolution;
 
@@ -49,27 +50,31 @@ Solution *ProblemManager::getNextSolution() {
         //reset;
     }
 
-    int bestCost = INTMAX_MAX;
+
+    Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
+    if (bestSolutionYet != nullptr)
+        bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
 
 
     Solution *nextSolution = this->currentSolution->getNextNeighbour();
-    Solution *bestSolutionYet = nextSolution;
     if (nextSolution != nullptr)
         nextSolution->setCost(calculateCostFor(nextSolution));
 
 
     while (nextSolution != nullptr) {
         //TODO FREE MEMORY
-        if (nextSolution->getCost() < bestCost) {
+        if (nextSolution->getCost() < bestSolutionYet->getCost()) {
+            delete bestSolutionYet;
             bestSolutionYet = nextSolution;
-            bestCost = nextSolution->getCost();
+        } else {
+            delete nextSolution;
         }
 
         nextSolution = this->currentSolution->getNextNeighbour();
         if (nextSolution != nullptr)
             nextSolution->setCost(calculateCostFor(nextSolution));
-
     }
+
 
     if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
         this->stepsWithoutImprovements++;
@@ -80,6 +85,7 @@ Solution *ProblemManager::getNextSolution() {
 
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
+
 
     delete this->currentSolution;
     this->currentSolution = bestSolutionYet;
@@ -135,7 +141,8 @@ void ProblemManager::printSolution(Solution *solution) {
     cout << endl << "SOLUCION S_" << solutionNumber++ << " -> ";
     this->neigNumber = 0;
     solution->print();
-    cout << " " << solution->getCost() << "km" << endl;
+    cout << endl << " " << solution->getCost() << "km" << endl;
+    cout << "changing  (" << solution->getGenePair().first << "," << solution->getGenePair().second << ")" << endl << endl;
 }
 
 void ProblemManager::printNeig(Solution *solution) {

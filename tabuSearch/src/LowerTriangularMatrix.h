@@ -56,8 +56,6 @@ template <typename T> void LowerTriangularMatrix<T>::cleanArray() {
 }
 
 template <typename T> LowerTriangularMatrix<T>::~LowerTriangularMatrix() {
-    this->size = size;
-    this->realSize = triangleNumber(size);
     free(this->data);
 }
 

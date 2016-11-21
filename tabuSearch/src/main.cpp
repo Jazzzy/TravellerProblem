@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     Solution *currentSolution;
 
     while ((currentSolution = PM->getNextSolution()) != nullptr) {
-        currentSolution->print();
+        //currentSolution->print();
     }
 
 

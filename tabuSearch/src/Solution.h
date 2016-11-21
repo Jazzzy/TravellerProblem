@@ -52,7 +52,8 @@ private:
     int cost;
     int currIter;
     pair<int, int> genePair;
-    LowerTriangularMatrix<bool> *visitedNeig;
+
+    //LowerTriangularMatrix<bool> *visitedNeig;
 
     bool isValidNeig(pair<int, int> p);
 
