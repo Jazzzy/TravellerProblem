@@ -17,6 +17,7 @@ TabuList::TabuList(int size) {
 void TabuList::addElement(pair<int, int> p) {
     this->tabuList.push_back(p);
     this->validList.erase(remove(this->validList.begin(), this->validList.end(), p), this->validList.end());
+    //cout << "erased: " << p.first << "," << p.second << endl;
 }
 
 TabuList::~TabuList() {
@@ -43,11 +44,21 @@ void TabuList::resetLists() {
 
 void TabuList::print() {
 
-    auto vec = this->validList;
+    cout << "TABU LIST: " << endl;
+    auto vec = this->tabuList;
+    for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+        std::cout << "" << (*i).first << ',' << (*i).second << "" << endl;
+
+    cout << "VALID LIST: " << endl;
+    vec = this->validList;
     for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
         std::cout << "" << (*i).first << ',' << (*i).second << "" << endl;
 
 
+}
+
+vector<pair<int, int>> *TabuList::getAllValidPairsRef() {
+    return &this->validList;
 }
 
 

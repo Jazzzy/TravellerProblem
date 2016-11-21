@@ -52,21 +52,30 @@ Solution *ProblemManager::getNextSolution() {
 
 
     Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
-    if (bestSolutionYet != nullptr)
+    if (bestSolutionYet != nullptr) {
         bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
-
+    }/*else{
+       // cout << "HAPPENED" << endl;
+    }*/
 
     Solution *nextSolution = this->currentSolution->getNextNeighbour();
-    if (nextSolution != nullptr)
+    if (nextSolution != nullptr) {
         nextSolution->setCost(calculateCostFor(nextSolution));
+    } /*else {
+        cout << "HAPPENED" << endl;
+    }*/
 
 
     while (nextSolution != nullptr) {
-        //TODO FREE MEMORY
+
+        //cout << bestSolutionYet->getCost() << endl;
+
         if (nextSolution->getCost() < bestSolutionYet->getCost()) {
+            //cout << "deleted best" << endl;
             delete bestSolutionYet;
             bestSolutionYet = nextSolution;
         } else {
+            //cout << "deleted next" << endl;
             delete nextSolution;
         }
 
@@ -75,6 +84,8 @@ Solution *ProblemManager::getNextSolution() {
             nextSolution->setCost(calculateCostFor(nextSolution));
     }
 
+    pair<int, int> p = bestSolutionYet->getGenePair();
+    tabuList->addElement(p);
 
     if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
         this->stepsWithoutImprovements++;
@@ -83,13 +94,11 @@ Solution *ProblemManager::getNextSolution() {
         stepsWithoutImprovements = 0;
     }
 
-    pair<int, int> p = bestSolutionYet->getGenePair();
-    tabuList->addElement(p);
-
 
     delete this->currentSolution;
     this->currentSolution = bestSolutionYet;
     printSolution(currentSolution);
+    //tabuList->print();
     return this->currentSolution;
 
     /*Solution *nextSolution = this->currentSolution->getNextNeighbour();

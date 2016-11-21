@@ -18,6 +18,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <math.h>
+#include <malloc.h>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ Solution::Solution() {
     //this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
     this->cost = -1;
     this->currIter = 0;
-    this->possiblePairs = tabuList->getAllValidPairs();
+    //this->possiblePairs = tabuList->getAllValidPairs();
 
 
     /*auto vec = possiblePairs;
@@ -45,7 +46,13 @@ Solution::Solution(int *data, pair<int, int> p) {
     this->cost = -1;
     this->currIter = 0;
     this->genePair = p;
-    this->possiblePairs = tabuList->getAllValidPairs();
+    //this->possiblePairs = tabuList->getAllValidPairs();
+
+
+    /*auto vec = possiblePairs;
+    for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+        std::cout << "[" << (*i).first << ',' << (*i).second << "]\n";*/
+
 }
 
 Solution::~Solution() {
@@ -60,20 +67,23 @@ void Solution::print() {
         cout << ", " << data[i];
     }
     cout << "];";
+
+    /*auto vec = possiblePairs;
+    for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+        std::cout << "[" << (*i).first << ',' << (*i).second << "]\n";*/
 }
 
 Solution *Solution::getNextNeighbour() {
 
-    if (currIter >= (this->possiblePairs.size() - 1)) {
+    if (currIter >= (tabuList->getAllValidPairsRef()->size() - 1)) {
         return nullptr;
     }
-
 
     /*auto vec = this->possiblePairs;
     for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
         std::cout << "[" << (*i).first << ',' << (*i).second << "] ";*/
 
-    pair<int, int> p = this->possiblePairs.at(currIter);
+    pair<int, int> p = tabuList->getAllValidPairsRef()->at((unsigned long) currIter);
 
     //cout << p.first << "," << p.second << endl;
 
@@ -83,7 +93,7 @@ Solution *Solution::getNextNeighbour() {
 
     //this->visitedNeig->setElement((unsigned int) p.first, (unsigned int) p.second, true);
 
-    int *newData = (int *)malloc(sizeof(int) * (sizeOfProblem - 1));
+    int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
 
     memcpy(newData, this->data, sizeof(int) * (sizeOfProblem - 1));
 

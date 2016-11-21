@@ -44,9 +44,11 @@ public:
 
     int getCurrIte();
 
+    //vector<pair<int, int>> possiblePairs;
+
 private:
 
-    vector<pair<int,int>> possiblePairs;
+    //vector<pair<int,int>> possiblePairs;
 
     int *data;
     int cost;
@@ -55,14 +57,13 @@ private:
 
     //LowerTriangularMatrix<bool> *visitedNeig;
 
-    bool isValidNeig(pair<int, int> p);
+    //bool isValidNeig(pair<int, int> p);
 
     pair<int, int> getNextPair(pair<int, int> p);
 
     pair<int, int> sortPair(pair<int, int> p);
 
     void switchValues(int *data, pair<int, int> p);
-
 
 
 };

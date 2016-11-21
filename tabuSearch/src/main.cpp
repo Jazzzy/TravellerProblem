@@ -52,11 +52,23 @@ int main(int argc, char **argv) {
 
     Solution *currentSolution;
 
-    while ((currentSolution = PM->getNextSolution()) != nullptr) {
-        //currentSolution->print();
+    //((currentSolution = PM->getNextSolution()) != nullptr) {
+    //currentSolution->print();
+    //}
+
+    for (int i = 0; i < 50; i++) {
+        currentSolution = PM->getNextSolution();
+
+       /* if (i > 45) {
+            auto vec = currentSolution->possiblePairs;
+            cout << "HERE: ";
+            for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+                std::cout << "[" << (*i).first << ',' << (*i).second << "] ";
+        }*/
+
     }
 
-
+    delete tabuList;
     delete PM;
     delete rGen;
 
