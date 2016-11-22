@@ -31,7 +31,7 @@ extern int sizeOfProblem;
 
 
 const int MAX_CHARS_PER_LINE = 512;
-const int MAX_TOKENS_PER_LINE = 20;
+const int MAX_TOKENS_PER_LINE = 150;
 const char *const DELIMITER = "\t";
 
 void fillMatrix(char *path, LowerTriangularMatrix<int> *matrix) {
@@ -67,9 +67,7 @@ void fillMatrix(char *path, LowerTriangularMatrix<int> *matrix) {
         row++;
 
     }
-
     sizeOfProblem = row - 1;
-
 }
 
 const int MAX_CHARS_PER_LINE2 = 64;

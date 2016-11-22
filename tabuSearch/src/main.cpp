@@ -25,6 +25,15 @@ RandomGanerator *rGen;
 int maxNeig;
 TabuList *tabuList;
 
+/*
+ * TODO:
+ *  -Delete elements from tabu list (set a size)
+ *
+ *  -Restart with best solution when we have been 100 iterations without getting any better.
+ *
+ * */
+
+
 int main(int argc, char **argv) {
 
     ProblemManager *PM;
@@ -34,7 +43,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (argc == 2) {                            //We have the file with the distances
+    if (argc == 2) {
         rGen = new RandomGanerator();
         PM = new ProblemManager(argv[1]);
     } else if (argc == 3) {
@@ -42,31 +51,18 @@ int main(int argc, char **argv) {
         PM = new ProblemManager(argv[1]);
     }
 
-
-    /*auto vec = tabuList->getAllValidPairs();
-    for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-        std::cout << "[" << (*i).first << ',' << (*i).second << "] ";*/
-
-    cout << endl;
-
-
     Solution *currentSolution;
-
-    //((currentSolution = PM->getNextSolution()) != nullptr) {
-    //currentSolution->print();
-    //}
+    currentSolution = PM->getCurrentSolution();
+    cout << "RECORRIDO INICIAL" << endl;
+    PM->printSimpleSolution(currentSolution);
 
     for (int i = 0; i < 50; i++) {
         currentSolution = PM->getNextSolution();
-
-       /* if (i > 45) {
-            auto vec = currentSolution->possiblePairs;
-            cout << "HERE: ";
-            for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-                std::cout << "[" << (*i).first << ',' << (*i).second << "] ";
-        }*/
-
+        PM->printSolution(currentSolution);
     }
+
+    cout << endl << endl << "MEJOR SOLUCION: " << endl;
+    PM->printSimpleSolutionWIte(currentSolution);
 
     delete tabuList;
     delete PM;

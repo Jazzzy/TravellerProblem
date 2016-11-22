@@ -28,6 +28,8 @@ public:
 
     void print();
 
+    void printFormatted();
+
 private:
     vector<pair<int, int>> validList;
     vector<pair<int, int>> tabuList;

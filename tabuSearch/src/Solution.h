@@ -44,28 +44,24 @@ public:
 
     int getCurrIte();
 
+    void setProblemIteration(int ite);
+
+    int getProblemIteration();
+
     //vector<pair<int, int>> possiblePairs;
 
 private:
-
-    //vector<pair<int,int>> possiblePairs;
-
     int *data;
     int cost;
     int currIter;
     pair<int, int> genePair;
-
-    //LowerTriangularMatrix<bool> *visitedNeig;
-
-    //bool isValidNeig(pair<int, int> p);
+    int problemIteration;
 
     pair<int, int> getNextPair(pair<int, int> p);
 
     pair<int, int> sortPair(pair<int, int> p);
 
     void switchValues(int *data, pair<int, int> p);
-
-
 };
 
 #endif /* SOLUTION_H */

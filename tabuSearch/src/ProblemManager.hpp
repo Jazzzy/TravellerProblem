@@ -18,23 +18,22 @@ public:
 
     Solution *getCurrentSolution();
 
+    void printSolution(Solution *solution);
+
+    void printSimpleSolution(Solution *solution);
+
+    void printSimpleSolutionWIte(Solution *solution);
+
 private:
     int stepsWithoutImprovements;
     Solution *currentSolution;
     LowerTriangularMatrix<int> *distanceMatrix;
     int solutionNumber;
     int neigNumber;
-
-
+    int currentIteration;
     Solution *bestSolutionEver;
 
-    void printSolution(Solution *solution);
-
-    void printNeig(Solution *solution);
-
     int calculateCostFor(Solution *solution);
-
-    bool pickSolution_FIRSTBETTER(Solution *current, Solution *possible);
 
 };
 

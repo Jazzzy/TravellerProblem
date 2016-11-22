@@ -26,18 +26,14 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
 
     this->solutionNumber = 0;
     this->bestSolutionEver = currentSolution;
+    this->currentIteration = 0;
 
-    printSolution(currentSolution);
 
 }
 
 ProblemManager::~ProblemManager() {
     delete this->distanceMatrix;
     delete this->currentSolution;
-}
-
-bool ProblemManager::pickSolution_FIRSTBETTER(Solution *current, Solution *possible) {
-    return ((possible == nullptr) || (current->getCost() > possible->getCost()));
 }
 
 #define STEPS_TO_RESET 100
@@ -54,28 +50,20 @@ Solution *ProblemManager::getNextSolution() {
     Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
     if (bestSolutionYet != nullptr) {
         bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
-    }/*else{
-       // cout << "HAPPENED" << endl;
-    }*/
-
+    }
     Solution *nextSolution = this->currentSolution->getNextNeighbour();
     if (nextSolution != nullptr) {
         nextSolution->setCost(calculateCostFor(nextSolution));
-    } /*else {
-        cout << "HAPPENED" << endl;
-    }*/
+    }
 
 
     while (nextSolution != nullptr) {
 
-        //cout << bestSolutionYet->getCost() << endl;
-
         if (nextSolution->getCost() < bestSolutionYet->getCost()) {
-            //cout << "deleted best" << endl;
             delete bestSolutionYet;
             bestSolutionYet = nextSolution;
         } else {
-            //cout << "deleted next" << endl;
+
             delete nextSolution;
         }
 
@@ -97,35 +85,10 @@ Solution *ProblemManager::getNextSolution() {
 
     delete this->currentSolution;
     this->currentSolution = bestSolutionYet;
-    printSolution(currentSolution);
-    //tabuList->print();
+
+    this->currentSolution->setProblemIteration(currentIteration++);
+
     return this->currentSolution;
-
-    /*Solution *nextSolution = this->currentSolution->getNextNeighbour();
-    nextSolution->setCost(calculateCostFor(nextSolution));
-    printNeig(nextSolution);
-
-    while (!pickSolution_FIRSTBETTER(this->currentSolution, nextSolution)) {
-        delete nextSolution;
-        nextSolution = this->currentSolution->getNextNeighbour();
-        if (nextSolution == nullptr) break;
-        nextSolution->setCost(calculateCostFor(nextSolution));
-        printNeig(nextSolution);
-
-    }
-
-    if (nextSolution == nullptr) {              //We have reached the final solution for this problem.
-
-        return nullptr;                     //The current solution is the final one.
-
-    } else {                                  //We have a better solution than the current one.
-
-        delete this->currentSolution;
-        this->currentSolution = nextSolution;
-        printSolution(currentSolution);
-        return this->currentSolution;
-
-    }*/
 
 }
 
@@ -133,6 +96,7 @@ Solution *ProblemManager::getNextSolution() {
 int ProblemManager::calculateCostFor(Solution *solution) {
 
     int accumCost = 0;
+
     accumCost += this->distanceMatrix->getElement(0, (unsigned int) solution->getElemAt(0));
     for (int i = 0; i < (sizeOfProblem - 2); i++) {
         accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(i), (unsigned int) solution->getElemAt(i + 1));
@@ -147,16 +111,27 @@ Solution *ProblemManager::getCurrentSolution() {
 }
 
 void ProblemManager::printSolution(Solution *solution) {
-    cout << endl << "SOLUCION S_" << solutionNumber++ << " -> ";
+    cout << endl << "ITERACION " << solution->getProblemIteration() + 1 << endl;
     this->neigNumber = 0;
+    cout << "\tINTERCAMBIO: (" << solution->getGenePair().first << ", " << solution->getGenePair().second << ")" << endl << "\tRECORRIDO: ";
     solution->print();
-    cout << endl << " " << solution->getCost() << "km" << endl;
-    cout << "changing  (" << solution->getGenePair().first << "," << solution->getGenePair().second << ")" << endl << endl;
+    cout << "\tCOSTE (km): " << solution->getCost() << endl;
+    cout << "\tITERACIONES SIN MEJORA: " << this->stepsWithoutImprovements << endl;
+    cout << "\tLISTA TABU:";
+    tabuList->printFormatted();
+    cout << endl;
+
 }
 
-void ProblemManager::printNeig(Solution *solution) {
-    pair<int, int> p = solution->getGenePair();
-    cout << "\tVECINO V_" << neigNumber++ << " -> Intercambio: (" << p.first << ", " << p.second << "); ";
+void ProblemManager::printSimpleSolution(Solution *solution) {
+    cout << "\tRECORRIDO: ";
     solution->print();
-    cout << " " << solution->getCost() << "km" << endl;
+    cout << "\tCOSTE (km): " << solution->getCost() << endl;
+}
+
+void ProblemManager::printSimpleSolutionWIte(Solution *solution) {
+    cout << "\tRECORRIDO: ";
+    solution->print();
+    cout << "\tCOSTE (km): " << solution->getCost() << endl;
+    cout << "\tITERACION: " << solution->getProblemIteration() << endl;
 }
