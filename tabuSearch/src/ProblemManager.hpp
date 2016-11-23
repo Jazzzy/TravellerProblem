@@ -18,6 +18,8 @@ public:
 
     Solution *getCurrentSolution();
 
+    Solution *getBestSolutionEver();
+
     void printSolution(Solution *solution);
 
     void printSimpleSolution(Solution *solution);

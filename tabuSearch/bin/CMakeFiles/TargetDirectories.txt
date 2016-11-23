@@ -1,0 +1,3 @@
+/home/jazzzy/GitProjects/TravellerProblem/tabuSearch/bin/CMakeFiles/edit_cache.dir
+/home/jazzzy/GitProjects/TravellerProblem/tabuSearch/bin/CMakeFiles/rebuild_cache.dir
+/home/jazzzy/GitProjects/TravellerProblem/tabuSearch/bin/CMakeFiles/TravellerProblem_TabuSearch.dir

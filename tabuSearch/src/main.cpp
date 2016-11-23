@@ -56,13 +56,13 @@ int main(int argc, char **argv) {
     cout << "RECORRIDO INICIAL" << endl;
     PM->printSimpleSolution(currentSolution);
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 250; i++) {
         currentSolution = PM->getNextSolution();
         PM->printSolution(currentSolution);
     }
 
     cout << endl << endl << "MEJOR SOLUCION: " << endl;
-    PM->printSimpleSolutionWIte(currentSolution);
+    PM->printSimpleSolutionWIte(PM->getBestSolutionEver());
 
     delete tabuList;
     delete PM;

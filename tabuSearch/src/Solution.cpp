@@ -14,11 +14,9 @@
 #include "Solution.h"
 #include "RandomGanerator.h"
 #include "TabuList.hpp"
-#include <iostream>
 #include <cstring>
 #include <stdlib.h>
-#include <math.h>
-#include <malloc.h>
+
 
 using namespace std;
 
@@ -49,6 +47,7 @@ Solution::Solution(int *data, pair<int, int> p) {
 
 Solution::~Solution() {
     free(this->data);
+    return;
 }
 
 void Solution::print() {
@@ -62,6 +61,7 @@ Solution *Solution::getNextNeighbour() {
     if (currIter >= (tabuList->getAllValidPairsRef()->size() - 1)) {
         return nullptr;
     }
+
     pair<int, int> p = tabuList->getAllValidPairsRef()->at((unsigned long) currIter);
     currIter++;
     int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));

@@ -46,16 +46,23 @@ Solution *ProblemManager::getNextSolution() {
         //reset;
     }
 
+    cout << "Best Solution Ever Cost: " << bestSolutionEver->getCost() << endl;
+
+    int cost1 = bestSolutionEver->getCost();
 
     Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
+    if (bestSolutionEver->getCost() != cost1) cout << "HOW DIS THIS HAPPEN?_0: " << bestSolutionYet << ":" << bestSolutionEver << endl;
     if (bestSolutionYet != nullptr) {
         bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
+    } else {
+        perror("Impossible null pointer!");
+        return nullptr;
     }
+
     Solution *nextSolution = this->currentSolution->getNextNeighbour();
     if (nextSolution != nullptr) {
         nextSolution->setCost(calculateCostFor(nextSolution));
     }
-
 
     while (nextSolution != nullptr) {
 
@@ -70,23 +77,23 @@ Solution *ProblemManager::getNextSolution() {
         nextSolution = this->currentSolution->getNextNeighbour();
         if (nextSolution != nullptr)
             nextSolution->setCost(calculateCostFor(nextSolution));
+
     }
 
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
 
-    if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
+    delete this->currentSolution;
+    this->currentSolution = bestSolutionYet;
+    this->currentSolution->setProblemIteration(currentIteration++);
+
+    if (this->bestSolutionEver->getCost() <= this->currentSolution->getCost()) {
         this->stepsWithoutImprovements++;
     } else {
-        bestSolutionEver = bestSolutionYet;
+        this->bestSolutionEver = this->currentSolution;
         stepsWithoutImprovements = 0;
     }
 
-
-    delete this->currentSolution;
-    this->currentSolution = bestSolutionYet;
-
-    this->currentSolution->setProblemIteration(currentIteration++);
 
     return this->currentSolution;
 
@@ -134,4 +141,8 @@ void ProblemManager::printSimpleSolutionWIte(Solution *solution) {
     solution->print();
     cout << "\tCOSTE (km): " << solution->getCost() << endl;
     cout << "\tITERACION: " << solution->getProblemIteration() << endl;
+}
+
+Solution *ProblemManager::getBestSolutionEver() {
+    return this->bestSolutionEver;
 }

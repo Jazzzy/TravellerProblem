@@ -35,6 +35,8 @@ private:
     vector<pair<int, int>> tabuList;
     int size;
 
+    void removeFirst();
+
     void resetLists();
 
 };

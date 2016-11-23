@@ -5,16 +5,39 @@
 #include <algorithm>
 #include <iostream>
 #include "TabuList.hpp"
+#include <vector>
 
 using namespace std;
+
+
+#define TABU_LIST_SIZE 100
+
+bool compare(const pair<int, int> &i, const pair<int, int> &j) {
+    if (i.first < j.first) return true;
+    else if (i.first == j.first && i.second < j.second) return true;
+    return false;
+}
+
 
 TabuList::TabuList(int size) {
     this->size = size;
     resetLists();
+}
 
+void TabuList::removeFirst() {
+    pair<int, int> p = this->tabuList.front();
+    this->tabuList.erase(this->tabuList.begin());
+
+    //Insert the element in the correct position.
+    this->validList.insert(std::lower_bound(this->validList.begin(), this->validList.end(), p, compare), p);
 }
 
 void TabuList::addElement(pair<int, int> p) {
+
+    if (tabuList.size() >= TABU_LIST_SIZE) {
+        removeFirst();
+    }
+
     this->tabuList.push_back(p);
     this->validList.erase(remove(this->validList.begin(), this->validList.end(), p), this->validList.end());
 }
@@ -67,5 +90,6 @@ void TabuList::printFormatted() {
         std::cout << "\n\t" << (*i).first << ' ' << (*i).second;
 
 }
+
 
 
