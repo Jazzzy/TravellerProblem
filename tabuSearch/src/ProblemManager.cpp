@@ -33,6 +33,9 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
 
 ProblemManager::~ProblemManager() {
     delete this->distanceMatrix;
+    if (this->bestSolutionEver != this->currentSolution) {
+        delete this->bestSolutionEver;
+    }
     delete this->currentSolution;
 }
 
@@ -83,18 +86,18 @@ Solution *ProblemManager::getNextSolution() {
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
 
-    delete this->currentSolution;
-    this->currentSolution = bestSolutionYet;
-    this->currentSolution->setProblemIteration(currentIteration++);
 
-    if (this->bestSolutionEver->getCost() <= this->currentSolution->getCost()) {
+    if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
         this->stepsWithoutImprovements++;
     } else {
-        this->bestSolutionEver = this->currentSolution;
+        this->bestSolutionEver = bestSolutionYet;
         stepsWithoutImprovements = 0;
     }
 
-
+    if (this->currentSolution != this->bestSolutionEver)
+        delete this->currentSolution;
+    this->currentSolution = bestSolutionYet;
+    this->currentSolution->setProblemIteration(currentIteration++);
     return this->currentSolution;
 
 }
