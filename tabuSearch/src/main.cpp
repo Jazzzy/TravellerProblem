@@ -34,6 +34,8 @@ TabuList *tabuList;
  * */
 
 
+#define ITERATIONS 10000
+
 int main(int argc, char **argv) {
 
     ProblemManager *PM;
@@ -56,7 +58,7 @@ int main(int argc, char **argv) {
     cout << "RECORRIDO INICIAL" << endl;
     PM->printSimpleSolution(currentSolution);
 
-    for (int i = 0; i < 250; i++) {
+    for (int i = 0; i < ITERATIONS; i++) {
         currentSolution = PM->getNextSolution();
         PM->printSolution(currentSolution);
     }

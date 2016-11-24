@@ -27,6 +27,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->solutionNumber = 0;
     this->bestSolutionEver = currentSolution;
     this->currentIteration = 0;
+    this->reinitNumber = 0;
 
 
 }
@@ -46,15 +47,19 @@ Solution *ProblemManager::getNextSolution() {
 
     if (stepsWithoutImprovements >= STEPS_TO_RESET) {
 
-        //reset;
+        if (this->currentSolution != this->bestSolutionEver) {
+            delete this->currentSolution;
+        }
+
+        this->currentSolution = bestSolutionEver;
+        tabuList->resetTabu();
+        cout << endl << "***************\nREINICIO: " << ++this->reinitNumber << endl << "***************" << endl;
+
+        stepsWithoutImprovements = 0;
+
     }
 
-    cout << "Best Solution Ever Cost: " << bestSolutionEver->getCost() << endl;
-
-    int cost1 = bestSolutionEver->getCost();
-
     Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
-    if (bestSolutionEver->getCost() != cost1) cout << "HOW DIS THIS HAPPEN?_0: " << bestSolutionYet << ":" << bestSolutionEver << endl;
     if (bestSolutionYet != nullptr) {
         bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
     } else {
@@ -109,7 +114,8 @@ int ProblemManager::calculateCostFor(Solution *solution) {
 
     accumCost += this->distanceMatrix->getElement(0, (unsigned int) solution->getElemAt(0));
     for (int i = 0; i < (sizeOfProblem - 2); i++) {
-        accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(i), (unsigned int) solution->getElemAt(i + 1));
+        accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(i),
+                                                      (unsigned int) solution->getElemAt(i + 1));
     }
     accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(sizeOfProblem - 2), 0);
     return accumCost;
@@ -121,9 +127,10 @@ Solution *ProblemManager::getCurrentSolution() {
 }
 
 void ProblemManager::printSolution(Solution *solution) {
-    cout << endl << "ITERACION " << solution->getProblemIteration() + 1 << endl;
+    cout << endl << "ITERACION: " << solution->getProblemIteration() + 1 << endl;
     this->neigNumber = 0;
-    cout << "\tINTERCAMBIO: (" << solution->getGenePair().first << ", " << solution->getGenePair().second << ")" << endl << "\tRECORRIDO: ";
+    cout << "\tINTERCAMBIO: (" << solution->getGenePair().first << ", " << solution->getGenePair().second << ")" << endl
+         << "\tRECORRIDO: ";
     solution->print();
     cout << "\tCOSTE (km): " << solution->getCost() << endl;
     cout << "\tITERACIONES SIN MEJORA: " << this->stepsWithoutImprovements << endl;

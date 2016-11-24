@@ -27,6 +27,7 @@ public:
     void printSimpleSolutionWIte(Solution *solution);
 
 private:
+    int reinitNumber;
     int stepsWithoutImprovements;
     Solution *currentSolution;
     LowerTriangularMatrix<int> *distanceMatrix;
