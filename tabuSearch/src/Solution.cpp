@@ -27,15 +27,8 @@ extern TabuList *tabuList;
 
 Solution::Solution() {
     this->data = rGen->getRandomArray();
-    //this->visitedNeig = new LowerTriangularMatrix<bool>((unsigned int) (sizeOfProblem - 1));
     this->cost = -1;
     this->currIter = 0;
-    //this->possiblePairs = tabuList->getAllValidPairs();
-
-
-    /*auto vec = possiblePairs;
-    for (std::vector<pair<int, int>>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-        std::cout << "[" << (*i).first << ',' << (*i).second << "]\n";*/
 }
 
 Solution::Solution(int *data, pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix) {
@@ -58,7 +51,8 @@ void Solution::print() {
 }
 
 Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix) {
-    if (currIter >= (tabuList->getAllValidPairsRef()->size() - 1)) {
+
+    if (currIter >= (tabuList->getAllValidPairsRef()->size())) {
         return nullptr;
     }
 
@@ -78,30 +72,6 @@ void Solution::switchValues(int *data, pair<int, int> p) {
     return;
 }
 
-pair<int, int> Solution::getNextPair(pair<int, int> p) {
-    pair<int, int> aux = p;
-    if ((p.first == p.second) || (p.first == (p.second - 1))) {
-        aux.first++;
-        aux.second = 0;
-    } else {
-        aux.second++;
-    }
-    if ((p.first >= (sizeOfProblem - 2)) && (p.second >= (sizeOfProblem - 3))) {
-        aux.first = 1;
-        aux.second = 0;
-    }
-    return aux;
-}
-
-pair<int, int> Solution::sortPair(pair<int, int> p) {
-    if (p.second > p.first) {
-        int aux = p.first;
-        p.first = p.second;
-        p.second = aux;
-    }
-    return p;
-}
-
 
 void Solution::setCost(int cost) {
     this->cost = cost;
@@ -111,17 +81,13 @@ int Solution::getCost() {
     return this->cost;
 }
 
-int Solution::getElemAt(int pos) {
-    return this->data[pos];
+unsigned int Solution::getElemAt(int pos) {
+    return (unsigned int) this->data[pos];
 }
 
 
 pair<int, int> Solution::getGenePair() {
     return this->genePair;
-}
-
-int Solution::getCurrIte() {
-    return currIter;
 }
 
 void Solution::setProblemIteration(int ite) {
@@ -164,41 +130,45 @@ int Solution::getCostSwitching(std::pair<int, int> p, int previousCost, LowerTri
     }
 
 
-    int di = getElemAt(p.first);
-    int dj = getElemAt(p.second);
+    unsigned int oldi = (unsigned int) getElemAt(p.first);
+    unsigned int oldj = (unsigned int) getElemAt(p.second);
     switchValues(this->data, p);
 
 
     if (p.second == 0) {
 
 
-        plusCost += distanceMatrix->getElement(0, di);
-        plusCost += distanceMatrix->getElement(di, getElemAt(p.second + 1));
+        plusCost += distanceMatrix->getElement(0, oldi);
+        plusCost += distanceMatrix->getElement(oldi, getElemAt(p.second + 1));
 
 
     } else {
 
 
-        plusCost += distanceMatrix->getElement(getElemAt(p.second - 1), di);
-        plusCost += distanceMatrix->getElement(di, getElemAt(p.second + 1));
+        plusCost += distanceMatrix->getElement(getElemAt(p.second - 1), oldi);
+        plusCost += distanceMatrix->getElement(oldi, getElemAt(p.second + 1));
 
     }
 
 
     if (p.first == (sizeOfProblem - 2)) {
 
-        plusCost += distanceMatrix->getElement(dj, 0);
-        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), dj);
+        plusCost += distanceMatrix->getElement(oldj, 0);
+        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), oldj);
 
 
     } else {
 
-        plusCost += distanceMatrix->getElement(dj, getElemAt(p.first + 1));
-        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), dj);
+        plusCost += distanceMatrix->getElement(oldj, getElemAt(p.first + 1));
+        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), oldj);
 
     }
 
     return previousCost - minusCost + plusCost;
+}
+
+void Solution::resetIte() {
+    this->currIter = 0;
 }
 
 

@@ -25,14 +25,6 @@ RandomGanerator *rGen;
 int maxNeig;
 TabuList *tabuList;
 
-/*
- * TODO:
- *  -Delete elements from tabu list (set a size)
- *
- *  -Restart with best solution when we have been 100 iterations without getting any better.
- *
- * */
-
 
 #define ITERATIONS 10000
 

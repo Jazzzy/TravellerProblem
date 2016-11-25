@@ -18,8 +18,6 @@ public:
 
     virtual ~TabuList();
 
-    vector<pair<int, int>> getAllValidPairs();
-
     vector<pair<int, int>> *getAllValidPairsRef();
 
     void addElement(pair<int, int> p);

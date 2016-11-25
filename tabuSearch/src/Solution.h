@@ -38,17 +38,16 @@ public:
 
     int getCost();
 
-    int getElemAt(int pos);
+    unsigned int getElemAt(int pos);
 
     pair<int, int> getGenePair();
-
-    int getCurrIte();
 
     void setProblemIteration(int ite);
 
     int getProblemIteration();
 
-    //vector<pair<int, int>> possiblePairs;
+    void resetIte();
+
 
 private:
     int *data;
@@ -57,13 +56,9 @@ private:
     pair<int, int> genePair;
     int problemIteration;
 
-    pair<int, int> getNextPair(pair<int, int> p);
-
-    pair<int, int> sortPair(pair<int, int> p);
-
     void switchValues(int *data, pair<int, int> p);
 
-    int getCostSwitching(std::pair<int,int> p ,int previousCost, LowerTriangularMatrix<int> *distanceMatrix);
+    int getCostSwitching(std::pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix);
 
 };
 

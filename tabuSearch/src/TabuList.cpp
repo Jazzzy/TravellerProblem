@@ -30,6 +30,7 @@ void TabuList::removeFirst() {
 
     //Insert the element in the correct position.
     this->validList.insert(std::lower_bound(this->validList.begin(), this->validList.end(), p, compare), p);
+
 }
 
 void TabuList::addElement(pair<int, int> p) {
@@ -47,9 +48,6 @@ TabuList::~TabuList() {
 
 }
 
-vector<pair<int, int>> TabuList::getAllValidPairs() {
-    return this->validList;
-}
 
 void TabuList::resetTabu() {
     resetLists();
@@ -57,6 +55,7 @@ void TabuList::resetTabu() {
 
 void TabuList::resetLists() {
     this->tabuList.clear();
+    this->validList.clear();
     for (unsigned int i = 1; i < this->size; i++) {
         for (unsigned int j = 0; j < i; j++) {
             this->validList.push_back(make_pair(i, j));

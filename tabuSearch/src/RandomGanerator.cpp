@@ -58,7 +58,7 @@ int *RandomGanerator::getRandomArray() {
         srand(time(NULL));
         int *array = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
 
-        std::vector<int> aux(sizeOfProblem - 1);
+        std::vector<int> aux((unsigned long) (sizeOfProblem - 1));
         std::generate(aux.begin(), aux.end(), Generator());
         std::vector<int>::const_iterator it, end = aux.end();
 
@@ -67,7 +67,7 @@ int *RandomGanerator::getRandomArray() {
 
         for (int i = 0; i < sizeOfProblem - 1; i++) {
             position = rand() % currentElems--;
-            array[i] = aux.at(position);
+            array[i] = aux.at((unsigned long) position);
             aux.erase(aux.begin() + (position));
         }
 
@@ -77,7 +77,7 @@ int *RandomGanerator::getRandomArray() {
 
         int *array = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
 
-        std::vector<int> aux(sizeOfProblem - 1);
+        std::vector<int> aux((unsigned long) (sizeOfProblem - 1));
         std::generate(aux.begin(), aux.end(), Generator());
         std::vector<int>::const_iterator it, end = aux.end();
 

@@ -26,13 +26,12 @@ public:
 
     void printSimpleSolutionWIte(Solution *solution);
 
+
 private:
     int reinitNumber;
     int stepsWithoutImprovements;
     Solution *currentSolution;
     LowerTriangularMatrix<int> *distanceMatrix;
-    int solutionNumber;
-    int neigNumber;
     int currentIteration;
     Solution *bestSolutionEver;
 
