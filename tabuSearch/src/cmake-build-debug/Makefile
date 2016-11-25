@@ -150,6 +150,33 @@ FileParser.cpp.s:
 	$(MAKE) -f CMakeFiles/TravellerProblem_TabuSearch.dir/build.make CMakeFiles/TravellerProblem_TabuSearch.dir/FileParser.cpp.s
 .PHONY : FileParser.cpp.s
 
+ProblemHelper.o: ProblemHelper.c.o
+
+.PHONY : ProblemHelper.o
+
+# target to build an object file
+ProblemHelper.c.o:
+	$(MAKE) -f CMakeFiles/TravellerProblem_TabuSearch.dir/build.make CMakeFiles/TravellerProblem_TabuSearch.dir/ProblemHelper.c.o
+.PHONY : ProblemHelper.c.o
+
+ProblemHelper.i: ProblemHelper.c.i
+
+.PHONY : ProblemHelper.i
+
+# target to preprocess a source file
+ProblemHelper.c.i:
+	$(MAKE) -f CMakeFiles/TravellerProblem_TabuSearch.dir/build.make CMakeFiles/TravellerProblem_TabuSearch.dir/ProblemHelper.c.i
+.PHONY : ProblemHelper.c.i
+
+ProblemHelper.s: ProblemHelper.c.s
+
+.PHONY : ProblemHelper.s
+
+# target to generate assembly for a file
+ProblemHelper.c.s:
+	$(MAKE) -f CMakeFiles/TravellerProblem_TabuSearch.dir/build.make CMakeFiles/TravellerProblem_TabuSearch.dir/ProblemHelper.c.s
+.PHONY : ProblemHelper.c.s
+
 ProblemManager.o: ProblemManager.cpp.o
 
 .PHONY : ProblemManager.o
@@ -297,6 +324,9 @@ help:
 	@echo "... FileParser.o"
 	@echo "... FileParser.i"
 	@echo "... FileParser.s"
+	@echo "... ProblemHelper.o"
+	@echo "... ProblemHelper.i"
+	@echo "... ProblemHelper.s"
 	@echo "... ProblemManager.o"
 	@echo "... ProblemManager.i"
 	@echo "... ProblemManager.s"

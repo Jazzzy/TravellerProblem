@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 cd ../bin
-cmake ../src/
+cmake -DCMAKE_BUILD_TYPE=Release ../src/
 make

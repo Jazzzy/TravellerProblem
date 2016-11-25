@@ -26,11 +26,11 @@ public:
      * Data must have its memory allocated outside the function.
      * @param data
      */
-    Solution(int *data, pair<int, int> p);
+    Solution(int *data, pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix);
 
     virtual ~Solution();
 
-    Solution *getNextNeighbour();
+    Solution *getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix);
 
     void print();
 
@@ -62,6 +62,9 @@ private:
     pair<int, int> sortPair(pair<int, int> p);
 
     void switchValues(int *data, pair<int, int> p);
+
+    int getCostSwitching(std::pair<int,int> p ,int previousCost, LowerTriangularMatrix<int> *distanceMatrix);
+
 };
 
 #endif /* SOLUTION_H */

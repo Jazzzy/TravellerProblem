@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jazzzy/GitProjects/TravellerProblem/tabuSearch/src/ProblemHelper.c
+ProblemHelper.h
+/Users/jazzzy/GitProjects/TravellerProblem/tabuSearch/src/ProblemHelper.h
+
+/Users/jazzzy/GitProjects/TravellerProblem/tabuSearch/src/ProblemHelper.h
+

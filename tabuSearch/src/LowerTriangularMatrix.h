@@ -25,6 +25,7 @@ public:
     LowerTriangularMatrix(unsigned int size);
     virtual ~LowerTriangularMatrix();
     T getElement(unsigned int x, unsigned int y);
+    T getElementUnsafe(unsigned int x, unsigned int y);
     void setElement(unsigned int x, unsigned int y, T element);
     unsigned int getSize();
     void resetData();
@@ -76,6 +77,13 @@ template <typename T> T LowerTriangularMatrix<T>::getElement(unsigned int x, uns
         return T();
     }
     return (this->data[insidePosition(x, y)]);
+}
+
+template <typename T> T LowerTriangularMatrix<T>::getElementUnsafe(unsigned int x, unsigned int y) {
+    if (x == y) {
+        return T();
+    }
+    return (this->data[triangleNumber(x) + y]);
 }
 
 template <typename T> unsigned int LowerTriangularMatrix<T>::insidePosition(unsigned int x, unsigned int y) {

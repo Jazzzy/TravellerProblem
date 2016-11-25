@@ -38,11 +38,11 @@ Solution::Solution() {
         std::cout << "[" << (*i).first << ',' << (*i).second << "]\n";*/
 }
 
-Solution::Solution(int *data, pair<int, int> p) {
+Solution::Solution(int *data, pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix) {
     this->data = data;
-    this->cost = -1;
     this->currIter = 0;
     this->genePair = p;
+    this->cost = getCostSwitching(p, previousCost, distanceMatrix);
 }
 
 Solution::~Solution() {
@@ -57,7 +57,7 @@ void Solution::print() {
     cout << endl;
 }
 
-Solution *Solution::getNextNeighbour() {
+Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix) {
     if (currIter >= (tabuList->getAllValidPairsRef()->size() - 1)) {
         return nullptr;
     }
@@ -66,8 +66,7 @@ Solution *Solution::getNextNeighbour() {
     currIter++;
     int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
     memcpy(newData, this->data, sizeof(int) * (sizeOfProblem - 1));
-    switchValues(newData, p);
-    Solution *newSolution = new Solution(newData, p);
+    Solution *newSolution = new Solution(newData, p, this->getCost(), distanceMatrix);
     return newSolution;
 }
 
@@ -132,6 +131,78 @@ void Solution::setProblemIteration(int ite) {
 int Solution::getProblemIteration() {
     return this->problemIteration;
 }
+
+int Solution::getCostSwitching(std::pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix) {
+
+
+    int minusCost = 0;
+    int plusCost = 0;
+
+
+    if (p.second == 0) {
+
+        minusCost += distanceMatrix->getElement(0, getElemAt(p.second));
+        minusCost += distanceMatrix->getElement(getElemAt(p.second), getElemAt(p.second + 1));
+
+
+    } else {
+
+        minusCost += distanceMatrix->getElement(getElemAt(p.second - 1), getElemAt(p.second));
+        minusCost += distanceMatrix->getElement(getElemAt(p.second), getElemAt(p.second + 1));
+
+    }
+
+    if (p.first == sizeOfProblem - 2) {
+
+        minusCost += distanceMatrix->getElement(getElemAt(p.first), 0);
+        minusCost += distanceMatrix->getElement(getElemAt(p.first - 1), getElemAt(p.first));
+
+    } else {
+
+        minusCost += distanceMatrix->getElement(getElemAt(p.first), getElemAt(p.first + 1));
+        minusCost += distanceMatrix->getElement(getElemAt(p.first - 1), getElemAt(p.first));
+    }
+
+
+    int di = getElemAt(p.first);
+    int dj = getElemAt(p.second);
+    switchValues(this->data, p);
+
+
+    if (p.second == 0) {
+
+
+        plusCost += distanceMatrix->getElement(0, di);
+        plusCost += distanceMatrix->getElement(di, getElemAt(p.second + 1));
+
+
+    } else {
+
+
+        plusCost += distanceMatrix->getElement(getElemAt(p.second - 1), di);
+        plusCost += distanceMatrix->getElement(di, getElemAt(p.second + 1));
+
+    }
+
+
+    if (p.first == (sizeOfProblem - 2)) {
+
+        plusCost += distanceMatrix->getElement(dj, 0);
+        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), dj);
+
+
+    } else {
+
+        plusCost += distanceMatrix->getElement(dj, getElemAt(p.first + 1));
+        plusCost += distanceMatrix->getElement(getElemAt(p.first - 1), dj);
+
+    }
+
+    return previousCost - minusCost + plusCost;
+}
+
+
+
 
 
 

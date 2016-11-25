@@ -5,11 +5,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/TravellerProblem_TabuSearch.dir/Solution.cpp.o"
   "CMakeFiles/TravellerProblem_TabuSearch.dir/ProblemManager.cpp.o"
   "CMakeFiles/TravellerProblem_TabuSearch.dir/TabuList.cpp.o"
+  "CMakeFiles/TravellerProblem_TabuSearch.dir/ProblemHelper.c.o"
   "TravellerProblem_TabuSearch.pdb"
   "TravellerProblem_TabuSearch"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang CXX)
+foreach(lang C CXX)
   include(CMakeFiles/TravellerProblem_TabuSearch.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

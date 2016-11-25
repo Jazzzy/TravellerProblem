@@ -106,7 +106,7 @@ void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
         row++;
     }
 
-
+    return;
 }
 
 

@@ -10,6 +10,7 @@
 extern int sizeOfProblem;
 extern int maxNeig;
 extern TabuList *tabuList;
+LowerTriangularMatrix<int> *globDistanceMatrix;
 
 ProblemManager::ProblemManager(char *pathOfDistances) {
 
@@ -20,9 +21,12 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->stepsWithoutImprovements = 0;
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
     fillMatrix(pathOfDistances, this->distanceMatrix);
+    globDistanceMatrix = this->distanceMatrix;
 
     this->currentSolution = new Solution();
     this->currentSolution->setCost(calculateCostFor(this->currentSolution));
+
+    //cout << this->currentSolution->getCost();
 
     this->solutionNumber = 0;
     this->bestSolutionEver = currentSolution;
@@ -59,17 +63,17 @@ Solution *ProblemManager::getNextSolution() {
 
     }
 
-    Solution *bestSolutionYet = this->currentSolution->getNextNeighbour();
+    Solution *bestSolutionYet = this->currentSolution->getNextNeighbour(this->distanceMatrix);
     if (bestSolutionYet != nullptr) {
-        bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
+        //bestSolutionYet->setCost(calculateCostFor(bestSolutionYet));
     } else {
         perror("Impossible null pointer!");
         return nullptr;
     }
 
-    Solution *nextSolution = this->currentSolution->getNextNeighbour();
+    Solution *nextSolution = this->currentSolution->getNextNeighbour(distanceMatrix);
     if (nextSolution != nullptr) {
-        nextSolution->setCost(calculateCostFor(nextSolution));
+        //nextSolution->setCost(calculateCostFor(nextSolution));
     }
 
     while (nextSolution != nullptr) {
@@ -82,9 +86,11 @@ Solution *ProblemManager::getNextSolution() {
             delete nextSolution;
         }
 
-        nextSolution = this->currentSolution->getNextNeighbour();
-        if (nextSolution != nullptr)
-            nextSolution->setCost(calculateCostFor(nextSolution));
+        nextSolution = this->currentSolution->getNextNeighbour(distanceMatrix);
+        if (nextSolution != nullptr) {
+
+        }
+        //nextSolution->setCost(calculateCostFor(nextSolution));
 
     }
 
@@ -107,20 +113,6 @@ Solution *ProblemManager::getNextSolution() {
 
 }
 
-
-int ProblemManager::calculateCostFor(Solution *solution) {
-
-    int accumCost = 0;
-
-    accumCost += this->distanceMatrix->getElement(0, (unsigned int) solution->getElemAt(0));
-    for (int i = 0; i < (sizeOfProblem - 2); i++) {
-        accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(i),
-                                                      (unsigned int) solution->getElemAt(i + 1));
-    }
-    accumCost += this->distanceMatrix->getElement((unsigned int) solution->getElemAt(sizeOfProblem - 2), 0);
-    return accumCost;
-
-}
 
 Solution *ProblemManager::getCurrentSolution() {
     return this->currentSolution;
@@ -155,4 +147,16 @@ void ProblemManager::printSimpleSolutionWIte(Solution *solution) {
 
 Solution *ProblemManager::getBestSolutionEver() {
     return this->bestSolutionEver;
+}
+
+int ProblemManager::calculateCostFor(Solution *solution) {
+    int accumCost = 0;
+    accumCost += distanceMatrix->getElement(0, (unsigned int) solution->getElemAt(0));
+    for (int i = 0; i < (sizeOfProblem - 2); i++) {
+        accumCost += distanceMatrix->getElement((unsigned int) solution->getElemAt(i),
+                                                      (unsigned int) solution->getElemAt(i + 1));
+    }
+    accumCost += distanceMatrix->getElement((unsigned int) solution->getElemAt(sizeOfProblem - 2), 0);
+    return accumCost;
+
 }
