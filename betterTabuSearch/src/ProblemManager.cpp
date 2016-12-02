@@ -98,7 +98,6 @@ void ProblemManager::printSolution(Solution *solution) {
     cout << "\tLISTA TABU:";
     tabuList->printFormatted();
     cout << endl;
-
 }
 
 void ProblemManager::printSimpleSolution(Solution *solution) {

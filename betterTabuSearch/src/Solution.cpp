@@ -14,6 +14,7 @@
 #include "Solution.h"
 #include "RandomGanerator.h"
 #include "TabuList.hpp"
+#include "SolutionHelper.h"
 #include <cstring>
 #include <stdlib.h>
 
@@ -26,7 +27,7 @@ extern int maxNeig;
 extern TabuList *tabuList;
 
 Solution::Solution() {
-    this->data = rGen->getRandomArray();
+    this->data = getGreedyData();
     this->cost = -1;
     this->currIter = 0;
 }

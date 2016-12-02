@@ -26,7 +26,7 @@ int maxNeig;
 TabuList *tabuList;
 
 
-#define ITERATIONS 10000
+#define ITERATIONS 1000
 
 int main(int argc, char **argv) {
 
@@ -43,6 +43,9 @@ int main(int argc, char **argv) {
     } else if (argc == 3) {
         rGen = new RandomGanerator(argv[2]);
         PM = new ProblemManager(argv[1]);
+    }else{
+        cerr << "Too many arguments.\nExample: program ./distancias_10.txt" << endl;
+        return EXIT_FAILURE;
     }
 
     Solution *currentSolution;
@@ -62,6 +65,7 @@ int main(int argc, char **argv) {
     delete PM;
     delete rGen;
 
-    return 0;
+    return EXIT_SUCCESS;
+
 }
 
