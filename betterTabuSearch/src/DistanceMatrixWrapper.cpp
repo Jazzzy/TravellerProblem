@@ -8,7 +8,6 @@
 extern LowerTriangularMatrix<int> *globDistanceMatrix;
 extern int sizeOfProblem;
 LowerTriangularMatrix<int> *frecMatrix;
-#define MU 10
 
 
 int differenceInDist;
@@ -25,6 +24,9 @@ float getWeightedCost(unsigned int x, unsigned int y) {
     int realCost = localDistanceMatrix->getElement(x, y);
 
     int maxFrec = frecMatrix->getMax();
+    if(maxFrec==0){
+        return realCost;
+    }
     float weightedCost = realCost + MU * differenceInDist * (frecMatrix->getElement(x, y) / maxFrec);
 
     return weightedCost;

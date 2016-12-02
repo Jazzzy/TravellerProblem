@@ -8,6 +8,9 @@
 
 #include "Solution.h"
 
+#define STEPS_TO_RESET 100
+
+
 class ProblemManager {
 public:
     ProblemManager(char *pathOfDistances);

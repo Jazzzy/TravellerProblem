@@ -6,6 +6,7 @@
 #include "FileParser.h"
 #include "TabuList.hpp"
 #include <math.h>
+#include "./DistanceMatrixWrapper.h"
 
 extern int sizeOfProblem;
 extern int maxNeig;
@@ -20,11 +21,12 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
     fillMatrix(pathOfDistances, this->distanceMatrix);
     globDistanceMatrix = this->distanceMatrix;
-    this->currentSolution = new Solution();
-    this->currentSolution->setCost(calculateCostFor(this->currentSolution));
-    this->bestSolutionEver = currentSolution;
     this->currentIteration = 0;
     this->reinitNumber = 0;
+    initWrapper();
+    this->currentSolution = new Solution();
+    //this->currentSolution->setCost(calculateCostFor(this->currentSolution));
+    this->bestSolutionEver = currentSolution;
 }
 
 ProblemManager::~ProblemManager() {
@@ -33,19 +35,27 @@ ProblemManager::~ProblemManager() {
         delete this->bestSolutionEver;
     }
     delete this->currentSolution;
+    destroyWrapper();
 }
 
-#define STEPS_TO_RESET 100
 
 Solution *ProblemManager::getNextSolution() {
 
 
     if (stepsWithoutImprovements >= STEPS_TO_RESET) {
-        if (this->currentSolution != this->bestSolutionEver) {
+        /*if (this->currentSolution != this->bestSolutionEver) {
             delete this->currentSolution;
         }
         this->currentSolution = bestSolutionEver;
-        this->currentSolution->resetIte();
+        this->currentSolution->resetIte();*/
+
+        delete this->currentSolution;
+
+        /*IMPROV: We generate a new greedy solution*/
+        this->currentSolution = new Solution();
+        //this->currentSolution->setCost(calculateCostFor(this->currentSolution));
+
+
         tabuList->resetTabu();
         cout << endl << "***************\nREINICIO: " << ++this->reinitNumber << endl << "***************" << endl;
         stepsWithoutImprovements = 0;
@@ -70,6 +80,10 @@ Solution *ProblemManager::getNextSolution() {
 
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
+
+    /*IMPROV: We add the pair to the frequency matrix*/
+    addFrec((unsigned int) p.first, (unsigned int) p.second);
+
     if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
         this->stepsWithoutImprovements++;
     } else {

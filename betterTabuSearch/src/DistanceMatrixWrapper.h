@@ -5,14 +5,9 @@
 #ifndef TRAVELLERPROBLEM_BETTERTABUSEARCH_DISTANCEMATRIXWRAPPER_H
 #define TRAVELLERPROBLEM_BETTERTABUSEARCH_DISTANCEMATRIXWRAPPER_H
 
-/*
- * TODO:
- *
- * Every time a pair is selected we add it to the frecuency matrix
- *
- * Put this in the greedy generation.
- *
-*/
+
+
+#define MU 999
 
 
 void initWrapper();

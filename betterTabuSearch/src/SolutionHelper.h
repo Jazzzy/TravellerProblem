@@ -9,4 +9,7 @@
 
 int *getGreedyData();
 
+void setGreedyData(Solution *solution);
+
+
 #endif //TRAVELLERPROBLEM_BETTERTABUSEARCH_SOLUTIONHELPER_H

@@ -48,6 +48,8 @@ public:
 
     void resetIte();
 
+    void setData(int *newdata);
+
 
 private:
     int *data;

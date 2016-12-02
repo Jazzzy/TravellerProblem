@@ -15,8 +15,6 @@
 #include "RandomGanerator.h"
 #include "TabuList.hpp"
 #include "SolutionHelper.h"
-#include <cstring>
-#include <stdlib.h>
 
 
 using namespace std;
@@ -27,8 +25,9 @@ extern int maxNeig;
 extern TabuList *tabuList;
 
 Solution::Solution() {
-    this->data = getGreedyData();
-    this->cost = -1;
+    /*this->data = getGreedyData();
+    this->cost = -1;*/
+    setGreedyData(this);
     this->currIter = 0;
 }
 
@@ -170,6 +169,10 @@ int Solution::getCostSwitching(std::pair<int, int> p, int previousCost, LowerTri
 
 void Solution::resetIte() {
     this->currIter = 0;
+}
+
+void Solution::setData(int *newdata) {
+    this->data = newdata;
 }
 
 

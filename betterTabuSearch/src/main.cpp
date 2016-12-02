@@ -26,7 +26,7 @@ int maxNeig;
 TabuList *tabuList;
 
 
-#define ITERATIONS 10000
+#define ITERATIONS 5000
 
 int main(int argc, char **argv) {
 
@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
         cerr << "Too many arguments.\nExample: program ./distancias_10.txt" << endl;
         return EXIT_FAILURE;
     }
+
 
     Solution *currentSolution;
     currentSolution = PM->getCurrentSolution();
