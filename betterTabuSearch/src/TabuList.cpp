@@ -10,7 +10,7 @@
 using namespace std;
 
 
-#define TABU_LIST_SIZE 100
+#define TABU_LIST_SIZE 1000
 
 bool compare(const pair<int, int> &i, const pair<int, int> &j) {
     if (i.first < j.first) return true;

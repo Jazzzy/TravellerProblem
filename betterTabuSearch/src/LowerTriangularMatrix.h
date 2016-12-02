@@ -38,6 +38,10 @@ public:
 
     void printData();
 
+    T getMax();
+
+    T getMin();
+
 private:
     unsigned int triangleNumber(unsigned int n);
 
@@ -69,6 +73,30 @@ void LowerTriangularMatrix<T>::cleanArray() {
         this->data[i] = {};
     }
 }
+
+template<typename T>
+T LowerTriangularMatrix<T>::getMax() {
+    T currentMax=data[0];
+    for (unsigned int i = 0; i < realSize; i++) {
+        if(this->data[i]>currentMax){
+            currentMax=this->data[i];
+        }
+    }
+    return currentMax;
+}
+
+template<typename T>
+T LowerTriangularMatrix<T>::getMin() {
+    T currentMin=data[0];
+    for (unsigned int i = 0; i < realSize; i++) {
+        if(this->data[i]<currentMin){
+            currentMin=this->data[i];
+        }
+    }
+    return currentMin;
+}
+
+
 
 template<typename T>
 LowerTriangularMatrix<T>::~LowerTriangularMatrix() {
