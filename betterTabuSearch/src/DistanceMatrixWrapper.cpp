@@ -18,23 +18,24 @@ void initWrapper() {
 }
 
 float getWeightedCost(unsigned int x, unsigned int y) {
-
-
     LowerTriangularMatrix<int> *localDistanceMatrix = globDistanceMatrix;
     int realCost = localDistanceMatrix->getElement(x, y);
 
     int maxFrec = frecMatrix->getMax();
-    if(maxFrec==0){
+    if (maxFrec == 0) {
         return realCost;
     }
-    float weightedCost = realCost + MU * differenceInDist * (frecMatrix->getElement(x, y) / maxFrec);
+    double weightedCost = realCost + MU * differenceInDist * (frecMatrix->getElement(x, y) / maxFrec);
 
-    return weightedCost;
+    return (float) weightedCost;
+}
 
+int differenceInFrec() {
+    return frecMatrix->getMax() - frecMatrix->getMin();
 }
 
 void addFrec(unsigned int x, unsigned int y) {
-    frecMatrix->setElement(x, y, frecMatrix->getElement(x, y) + 1);
+    frecMatrix->setElement(x, y, (frecMatrix->getElement(x, y) + 1));
 }
 
 void destroyWrapper() {

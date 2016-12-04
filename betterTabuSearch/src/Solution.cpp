@@ -15,6 +15,7 @@
 #include "RandomGanerator.h"
 #include "TabuList.hpp"
 #include "SolutionHelper.h"
+#include "DistanceMatrixWrapper.h"
 
 
 using namespace std;
@@ -173,6 +174,22 @@ void Solution::resetIte() {
 
 void Solution::setData(int *newdata) {
     this->data = newdata;
+}
+
+
+
+
+
+void Solution::addFrequencyToMatrix() {
+
+    addFrec(0, (unsigned int) data[0]);
+    for (int i = 0; i < sizeOfProblem - 2; i++) {
+        addFrec((unsigned int) data[i], (unsigned int) data[i + 1]);
+    }
+    addFrec((unsigned int) data[sizeOfProblem-2],0);
+
+
+
 }
 
 

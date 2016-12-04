@@ -50,6 +50,8 @@ public:
 
     void setData(int *newdata);
 
+    void addFrequencyToMatrix();
+
 
 private:
     int *data;

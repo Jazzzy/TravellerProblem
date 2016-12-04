@@ -81,8 +81,9 @@ Solution *ProblemManager::getNextSolution() {
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
 
-    /*IMPROV: We add the pair to the frequency matrix*/
-    addFrec((unsigned int) p.first, (unsigned int) p.second);
+
+
+
 
     if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
         this->stepsWithoutImprovements++;
@@ -94,6 +95,13 @@ Solution *ProblemManager::getNextSolution() {
         delete this->currentSolution;
     this->currentSolution = bestSolutionYet;
     this->currentSolution->setProblemIteration(currentIteration++);
+
+
+    /*IMPROV: We add the pair to the frequency matrix*/
+    //addFrec((unsigned int) p.first, (unsigned int) p.second);
+    this->currentSolution->addFrequencyToMatrix();
+
+
     return this->currentSolution;
 }
 

@@ -7,7 +7,7 @@
 
 
 
-#define MU 999
+#define MU 0.5
 
 
 void initWrapper();

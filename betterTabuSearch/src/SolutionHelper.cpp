@@ -26,8 +26,11 @@ int getClosestCity(int source, vector<int> *validList) {
     return city;
 }
 
+//extern LowerTriangularMatrix<int> *frecMatrix;
+
 
 void setGreedyData(Solution *solution) {
+
 
     int accumCost = 0;
 
@@ -60,8 +63,6 @@ void setGreedyData(Solution *solution) {
 
     solution->setData(array);
     solution->setCost(accumCost);
-
-
 }
 
 int *getGreedyData() {
