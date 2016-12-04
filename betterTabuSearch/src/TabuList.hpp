@@ -10,7 +10,7 @@
 
 #pragma once
 
-#define TABU_LIST_SIZE 100
+#define TABU_LIST_SIZE 500
 
 using namespace std;
 

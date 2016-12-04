@@ -8,7 +8,27 @@
 
 #include "Solution.h"
 
-#define STEPS_TO_RESET 100
+#define STEPS_TO_RESET 100 //50
+
+#define FREC_LIMIT 700 //(MU=0.005)500-3275(5007) 600-3210(6212) 800-3275(8209) 700-3210(7112)
+
+/*
+ * RESET: 100
+ * LIMIT: 700
+ * MU: 0.05
+ * TABU: 200    3174 en 7414
+ *
+ * RESET: 100
+ * LIMIT: 700
+ * MU: 0.05
+ * TABU: 1000    3181 en 8214 ite
+ *
+ * RESET: 100
+ * LIMIT: 700
+ * MU: 0.05
+ * TABU: 500    3163 en 7311 ite
+ *
+ * */
 
 
 class ProblemManager {

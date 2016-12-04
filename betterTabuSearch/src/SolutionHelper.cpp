@@ -13,7 +13,11 @@ extern int sizeOfProblem;
 int getClosestCity(int source, vector<int> *validList) {
 
     int city = -1;
-    float cost = std::numeric_limits<float>::max();;
+    float cost = std::numeric_limits<float>::max();
+
+    /*if (source == 0) {
+        cout << source << endl;
+    }*/
 
     for (std::vector<int>::const_iterator i = validList->begin(); i != validList->end(); ++i) {
         float costAux = getWeightedCost((unsigned int) source, (unsigned int) (*i));
@@ -22,15 +26,20 @@ int getClosestCity(int source, vector<int> *validList) {
             cost = costAux;
 
         }
+        /*if((*i)==98){
+            cout << source << endl;
+        }*/
     }
     return city;
 }
 
-//extern LowerTriangularMatrix<int> *frecMatrix;
-
+/*//extern LowerTriangularMatrix<int> *frecMatrix;
+int counterOfCities = 0;
+int modules = 0;
+int times = 0;
+#define SAME_CITY_TIMES 3*/
 
 void setGreedyData(Solution *solution) {
-
 
     int accumCost = 0;
 
@@ -48,7 +57,23 @@ void setGreedyData(Solution *solution) {
     int value;
 
     value = getClosestCity(0, &validList);
+    /*if (value != 98) {
+        cout << value << endl;
+        exit(1);
+    }*/
     array[0] = value;
+
+
+
+    //cout << "ARRAY 0: " << array[0] << endl;
+
+    /*if ((times) > SAME_CITY_TIMES) {
+        array[0] = (counterOfCities++ + (20 * modules++)) % (sizeOfProblem - 2);
+        times = 0;
+        printf("PILLAMOS OTRA: %d", array[0]);
+    }
+    times++;*/
+
     validList.erase(std::remove(validList.begin(), validList.end(), value), validList.end());
     accumCost += localDistanceMatrix->getElement(0, (unsigned int) array[0]);
 
@@ -59,6 +84,8 @@ void setGreedyData(Solution *solution) {
         accumCost += localDistanceMatrix->getElement((unsigned int) array[i], (unsigned int) array[i + 1]);
     }
     accumCost += localDistanceMatrix->getElement((unsigned int) array[sizeOfProblem - 2], 0);
+
+    //cout << "ARRAY 0: " << array[0] << endl;
 
 
     solution->setData(array);

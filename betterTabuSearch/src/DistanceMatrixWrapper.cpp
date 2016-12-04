@@ -21,21 +21,41 @@ float getWeightedCost(unsigned int x, unsigned int y) {
     LowerTriangularMatrix<int> *localDistanceMatrix = globDistanceMatrix;
     int realCost = localDistanceMatrix->getElement(x, y);
 
-    int maxFrec = frecMatrix->getMax();
+    double maxFrec = frecMatrix->getMax();
     if (maxFrec == 0) {
         return realCost;
     }
-    double weightedCost = realCost + MU * differenceInDist * (frecMatrix->getElement(x, y) / maxFrec);
+
+    double frec= frecMatrix->getElement(x, y);
+    double weightedCost = realCost + (MU * differenceInDist * ((frec / maxFrec)));
+
+    /*if ((x == 0 && y == 98) || (x == 98 && y == 0)) {
+        cout << endl;
+    }
+
+    if (weightedCost != realCost) {
+        cout << "Weighted cost: " << weightedCost << "  Real cost: " << realCost << endl;
+    }*/
 
     return (float) weightedCost;
 }
 
-int differenceInFrec() {
-    return frecMatrix->getMax() - frecMatrix->getMin();
+double frecParameter() {
+    double ret = frecMatrix->getStdDev();
+    cout << "STDDEV:" << ret << endl;
+    return ret;
 }
 
 void addFrec(unsigned int x, unsigned int y) {
+
+    /*if (x == 0 && y == 98) {
+        cout << "(0:98) "<<(frecMatrix->getElement(x, y)) << endl;
+    }*/
     frecMatrix->setElement(x, y, (frecMatrix->getElement(x, y) + 1));
+    /*if (x == 0 && y == 98) {
+        cout << "(0:98) "<<(frecMatrix->getElement(x, y)) << endl;
+    }*/
+
 }
 
 void destroyWrapper() {

@@ -7,7 +7,7 @@
 
 
 
-#define MU 0.5
+#define MU 0.005
 
 
 void initWrapper();
@@ -18,5 +18,6 @@ void addFrec(unsigned int x, unsigned int y);
 
 void destroyWrapper();
 
+double frecParameter();
 
 #endif //TRAVELLERPROBLEM_BETTERTABUSEARCH_DISTANCEMATRIXWRAPPER_H

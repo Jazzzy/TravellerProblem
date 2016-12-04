@@ -4,7 +4,7 @@ In order to compile and run this program you just need to go to the /scripts fol
 
 1. compile.sh
 2. run.sh (runs reading the numbers from a file and making a diff with the official trace)
-3. runRandom.sh (runs generating random numbers each time)
+3. runToTerminal.sh (runs generating random numbers each time)
 4. runValgrind.sh (runs and checks for memory leaks)
 
 Executing the first script (compile.sh) will use the cmakelists.txt file on the /src folder to create a makefile inside the /bin folder. Then it will execute a make in order to compile the whole program.

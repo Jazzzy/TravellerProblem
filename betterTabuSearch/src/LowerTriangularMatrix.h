@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <cmath>
 
 using namespace std;
 
@@ -41,6 +42,10 @@ public:
     T getMax();
 
     T getMin();
+
+    double getMean();
+
+    double getStdDev();
 
 private:
     unsigned int triangleNumber(unsigned int n);
@@ -156,4 +161,23 @@ void LowerTriangularMatrix<T>::printData() {
         }
         cout << endl;
     }
+}
+
+template<typename T>
+double LowerTriangularMatrix<T>::getMean(){
+    T sum=0;
+    for (unsigned int i = 0; i < realSize; i++) {
+        sum+=this->data[i];
+    }
+    return sum/realSize;
+}
+
+template<typename T>
+double LowerTriangularMatrix<T>::getStdDev(){
+    double mean = this->getMean();
+    double stdDev=0;
+    for(int i = 0; i < realSize; ++i)
+        stdDev += pow(this->data[i] - mean, 2);
+
+    return sqrt(stdDev / realSize);
 }

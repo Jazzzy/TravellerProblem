@@ -27,6 +27,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->currentSolution = new Solution();
     //this->currentSolution->setCost(calculateCostFor(this->currentSolution));
     this->bestSolutionEver = currentSolution;
+    this->currentSolution->addFrequencyToMatrix();
 }
 
 ProblemManager::~ProblemManager() {
@@ -43,22 +44,28 @@ Solution *ProblemManager::getNextSolution() {
 
 
     if (stepsWithoutImprovements >= STEPS_TO_RESET) {
-        /*if (this->currentSolution != this->bestSolutionEver) {
+
+        bool diversificate = (frecParameter() > FREC_LIMIT);
+        if (diversificate) {
             delete this->currentSolution;
+            /*IMPROV: We generate a new greedy solution*/
+            this->currentSolution = new Solution();
+            //this->currentSolution->setCost(calculateCostFor(this->currentSolution));
+            cout << endl << "***************\nREINICIO DIVERSIFICANDO: " << ++this->reinitNumber << endl << "***************" << endl;
+
+        } else {
+            if (this->currentSolution != this->bestSolutionEver) {
+                delete this->currentSolution;
+            }
+            this->currentSolution = bestSolutionEver;
+            this->currentSolution->resetIte();
+            cout << endl << "***************\nREINICIO INTENSIFICANDO: " << ++this->reinitNumber << endl << "***************" << endl;
+            tabuList->resetTabu();
         }
-        this->currentSolution = bestSolutionEver;
-        this->currentSolution->resetIte();*/
 
-        delete this->currentSolution;
-
-        /*IMPROV: We generate a new greedy solution*/
-        this->currentSolution = new Solution();
-        //this->currentSolution->setCost(calculateCostFor(this->currentSolution));
-
-
-        tabuList->resetTabu();
-        cout << endl << "***************\nREINICIO: " << ++this->reinitNumber << endl << "***************" << endl;
         stepsWithoutImprovements = 0;
+        this->currentSolution->addFrequencyToMatrix();
+
     }
 
     Solution *bestSolutionYet = this->currentSolution->getNextNeighbour(this->distanceMatrix);
@@ -80,9 +87,6 @@ Solution *ProblemManager::getNextSolution() {
 
     pair<int, int> p = bestSolutionYet->getGenePair();
     tabuList->addElement(p);
-
-
-
 
 
     if (this->bestSolutionEver->getCost() <= bestSolutionYet->getCost()) {
