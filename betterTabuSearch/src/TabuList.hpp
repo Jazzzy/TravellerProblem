@@ -10,6 +10,8 @@
 
 #pragma once
 
+#define TABU_LIST_SIZE 100
+
 using namespace std;
 
 class TabuList {

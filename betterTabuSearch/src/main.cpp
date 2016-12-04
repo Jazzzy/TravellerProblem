@@ -26,7 +26,7 @@ int maxNeig;
 TabuList *tabuList;
 
 
-#define ITERATIONS 5000
+#define ITERATIONS 10000
 
 int main(int argc, char **argv) {
 
