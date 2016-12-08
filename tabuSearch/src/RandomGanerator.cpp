@@ -12,12 +12,7 @@
  */
 
 #include "RandomGanerator.h"
-#include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
-#include <vector>
-#include <algorithm>
-#include <iterator>
 #include <iostream>
 #include "FileParser.h"
 #include <math.h>
@@ -86,12 +81,14 @@ int *RandomGanerator::getRandomArray() {
 
         for (int i = 0; i < sizeOfProblem - 1; i++) {
 
-            float fvalue = floor(getNextReadFloat() * (float) (sizeOfProblem - 1));
+
+            float fvalue = (float) floor(getNextReadFloat() * (float) (sizeOfProblem - 1));
             value = (int) fvalue + 1;
 
             while ((std::find(aux.begin(), aux.end(), value) == aux.end())) {
-                value = (value + 1) % (sizeOfProblem - 1);
+                value = (value + 1) % (sizeOfProblem);
             }
+
             aux.erase(std::remove(aux.begin(), aux.end(), value), aux.end());
             array[i] = value;
 

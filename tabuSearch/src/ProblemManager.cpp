@@ -18,7 +18,9 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     tabuList = new TabuList(sizeOfProblem - 1);
     this->stepsWithoutImprovements = 0;
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
+
     fillMatrix(pathOfDistances, this->distanceMatrix);
+
     globDistanceMatrix = this->distanceMatrix;
     this->currentSolution = new Solution();
     this->currentSolution->setCost(calculateCostFor(this->currentSolution));

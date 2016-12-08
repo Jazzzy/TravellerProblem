@@ -27,6 +27,7 @@ extern TabuList *tabuList;
 
 Solution::Solution() {
     this->data = rGen->getRandomArray();
+
     this->cost = -1;
     this->currIter = 0;
 }

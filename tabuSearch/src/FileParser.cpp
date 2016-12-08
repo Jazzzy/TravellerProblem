@@ -14,15 +14,10 @@
 
 
 #include "FileParser.h"
-#include <iostream>
-#include <cstring>
-#include <stdlib.h>
 #include <fstream>
 
 using std::cout;
 using std::endl;
-
-#include <fstream>
 
 using std::ifstream;
 
@@ -78,8 +73,10 @@ void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
 
     ifstream inputStream;
     inputStream.open(path);
+
     if (!inputStream.good())
         std::runtime_error("Could not open file");
+
 
     int row = 1;
 
@@ -93,6 +90,8 @@ void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
         const char *token[MAX_TOKENS_PER_LINE2] = {};
 
         token[0] = strtok(buf, DELIMITER2);
+
+
         if (token[0]) {
             for (n = 1; n < MAX_TOKENS_PER_LINE2; n++) {
                 token[n] = strtok(0, DELIMITER2);
@@ -103,6 +102,8 @@ void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
         for (int i = 0; i < n; i++) {
             vector->push_back(atof(token[i]));
         }
+
+
         row++;
     }
 
@@ -124,6 +125,7 @@ int getSizeOfProblem(char *path) {
         inputStream.getline(buf, MAX_CHARS_PER_LINE);
         row++;
     }
+
     return row;
 
 }

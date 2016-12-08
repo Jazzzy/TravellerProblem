@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
         PM = new ProblemManager(argv[1]);
     }
 
+
     Solution *currentSolution;
     currentSolution = PM->getCurrentSolution();
     cout << "RECORRIDO INICIAL" << endl;
