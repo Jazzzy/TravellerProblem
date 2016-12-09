@@ -29,20 +29,12 @@ float getWeightedCost(unsigned int x, unsigned int y) {
     double frec= frecMatrix->getElement(x, y);
     double weightedCost = realCost + (MU * differenceInDist * ((frec / maxFrec)));
 
-    /*if ((x == 0 && y == 98) || (x == 98 && y == 0)) {
-        cout << endl;
-    }
-
-    if (weightedCost != realCost) {
-        cout << "Weighted cost: " << weightedCost << "  Real cost: " << realCost << endl;
-    }*/
-
     return (float) weightedCost;
 }
 
 double frecParameter() {
     double ret = frecMatrix->getStdDev();
-    cout << "STDDEV:" << ret << endl;
+    //cout << "STDDEV:" << ret << endl;
     return ret;
 }
 

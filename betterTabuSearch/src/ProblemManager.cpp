@@ -102,7 +102,6 @@ Solution *ProblemManager::getNextSolution() {
 
 
     /*IMPROV: We add the pair to the frequency matrix*/
-    //addFrec((unsigned int) p.first, (unsigned int) p.second);
     this->currentSolution->addFrequencyToMatrix();
 
 
