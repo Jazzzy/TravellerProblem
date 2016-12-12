@@ -1,13 +1,15 @@
 #include "Solution.h"
 #include "RandomGanerator.h"
 #include "SolutionHelper.h"
+#include "PairList.hpp"
 
 
 using namespace std;
 
 extern int sizeOfProblem;
 extern RandomGanerator *rGen;
-extern int maxNeig;
+extern PairList *pList;
+
 
 Solution::Solution() {
     setGreedyData(this);
@@ -17,6 +19,7 @@ Solution::Solution(int *data, pair<int, int> p, int previousCost, LowerTriangula
     this->data = data;
     this->genePair = p;
     this->cost = getCostSwitching(p, previousCost, distanceMatrix);
+    this->currIter = 0;
 }
 
 Solution::~Solution() {
@@ -33,7 +36,19 @@ void Solution::printData() {
 
 Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix) {
     Solution *newSolution = nullptr;
-    //TODO
+
+
+    if (currIter >= (pList->getAllValidPairsRef()->size())) {
+        return nullptr;
+    }
+    std::pair<int, int> p = pList->getAllValidPairsRef()->at((unsigned long) currIter);
+    currIter++;
+    int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
+    memcpy(newData, this->data, sizeof(int) * (sizeOfProblem - 1));
+    newSolution = new Solution(newData, p, this->getCost(), distanceMatrix);
+    return newSolution;
+
+
     return newSolution;
 }
 

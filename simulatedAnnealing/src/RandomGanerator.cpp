@@ -111,4 +111,11 @@ int RandomGanerator::getRandomInt() {
         return (rand() % (sizeOfProblem - 1));
 }
 
+double RandomGanerator::getRandomDouble() {
+    if (randVec)
+        return getNextReadFloat();
+    else
+        return (float) rand() / (float) (RAND_MAX);
+}
+
 

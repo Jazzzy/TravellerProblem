@@ -44,7 +44,6 @@ void TabuList::addElement(pair<int, int> p) {
 
 TabuList::~TabuList() {
 
-
 }
 
 

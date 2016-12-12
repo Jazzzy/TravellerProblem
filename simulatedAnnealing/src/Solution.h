@@ -47,7 +47,10 @@ private:
     int cost;
     pair<int, int> genePair;
     int problemIteration;
+    int currIter;
+
     void switchValues(int *data, pair<int, int> p);
+
     int getCostSwitching(std::pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix);
 
 };

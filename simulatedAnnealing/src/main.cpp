@@ -9,7 +9,6 @@ using namespace std;
 int sizeOfProblem = 100;
 RandomGanerator *rGen;
 
-#define ITERATIONS 10000
 
 int main(int argc, char **argv) {
 
@@ -18,9 +17,7 @@ int main(int argc, char **argv) {
     if (argc < 2) {
         cerr << "We need a file that contains the distances" << endl;
         return 1;
-    }
-
-    if (argc == 2) {
+    }else if (argc == 2) {
         rGen = new RandomGanerator();
         PM = new ProblemManager(argv[1]);
     } else if (argc == 3) {
@@ -31,6 +28,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+
     Solution *currentSolution;
     currentSolution = PM->getCurrentSolution();
 
@@ -40,9 +38,8 @@ int main(int argc, char **argv) {
     }
 
 
-    for (int i = 0; i < ITERATIONS; i++) {
+    while(PM->showMustGoOn()) {
         currentSolution = PM->getNextSolution();
-
         {   //OUTPUT
             currentSolution->print();
         }

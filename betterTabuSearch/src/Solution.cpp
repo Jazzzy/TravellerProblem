@@ -56,7 +56,6 @@ Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix)
     if (currIter >= (tabuList->getAllValidPairsRef()->size())) {
         return nullptr;
     }
-
     pair<int, int> p = tabuList->getAllValidPairsRef()->at((unsigned long) currIter);
     currIter++;
     int *newData = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));

@@ -16,6 +16,8 @@ public:
 
     int getRandomInt();
 
+    double getRandomDouble();
+
     virtual ~RandomGanerator();
 
 private:
