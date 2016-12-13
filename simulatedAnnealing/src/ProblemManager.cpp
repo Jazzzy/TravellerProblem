@@ -71,6 +71,7 @@ Solution *ProblemManager::getNextSolution() {
 
     double randomValue = rGen->getRandomDouble();
 
+
     this->last_delta = delta;
     this->last_exp = exponential;
 
