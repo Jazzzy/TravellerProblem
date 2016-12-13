@@ -23,6 +23,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     fillMatrix(pathOfDistances, this->distanceMatrix);
     globDistanceMatrix = this->distanceMatrix;
     this->currentSolution = new Solution(); //Greedy initialization
+    this->currentSolution->setProblemIteration(0);
     this->bestSolutionEver = currentSolution;
     this->currentIteration = 0;
 
@@ -33,10 +34,14 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->neig_gen = 0;
     this->neig_success = 0;
     this->allTimeNeig = 0;
+    this->last_was_accepted = false;
 }
 
 ProblemManager::~ProblemManager() {
     delete this->distanceMatrix;
+    if (this->candidateSolution != this->bestSolutionEver && this->candidateSolution != this->currentSolution) {
+        delete this->candidateSolution;
+    }
     if (this->bestSolutionEver != this->currentSolution) {
         delete this->bestSolutionEver;
     }
@@ -44,40 +49,21 @@ ProblemManager::~ProblemManager() {
 }
 
 
-/* TODO: Questions
- *
- * LINK: https://cv.usc.es/pluginfile.php/78242/mod_resource/content/7/4_4_MH_SA_16_17.pdf
- *
- * Here I don't know how to apply the correct algorithm explained by the teacher
- *
- *      -Should we generate solutions for the solution we have as the current one always?
- *
- *      -When should we return a solution?
- *
- *      -Does the "cool down for" exist?
- *
- *      -Should we return the current solution or the generated on each loop?
- *
- *      -Are we sure we need to stop at 10000 solutions generated?
- *
- *      -What happens if we generate all solutions without taking one
- *       and we cannot get a new one from the current solution?
- *
- * */
 Solution *ProblemManager::getNextSolution() {
 
-    Solution *candidateSolution = nullptr;
+    this->candidateSolution = nullptr;
 
-    //for (;;) {
-    candidateSolution = this->currentSolution->getNextNeighbour(this->distanceMatrix);
-    if (candidateSolution == nullptr) {
-        std::cerr << "We have generated all the possible solutions of the current solution, this kind of should never have happened :(" << std::endl;
+    this->candidateSolution = this->currentSolution->getBestNeighbour(this->distanceMatrix); //take best
+    if (this->candidateSolution == nullptr) {
+        std::cerr
+                << "We could not generete the best neighbour of the current solution, this kind of should never have happened :("
+                << std::endl;
         exit(EXIT_FAILURE);
     }
     this->allTimeNeig++;
     this->neig_gen++;
 
-    int delta = candidateSolution->getCost() - this->currentSolution->getCost();
+    int delta = this->candidateSolution->getCost() - this->currentSolution->getCost();
 
     const double EulerConstant = std::exp(1.0);
 
@@ -85,15 +71,20 @@ Solution *ProblemManager::getNextSolution() {
 
     double randomValue = rGen->getRandomDouble();
 
+    this->last_delta = delta;
+    this->last_exp = exponential;
+
     if (delta < 0 || randomValue < exponential) {
         //We take the solution as the current one
         if (this->currentSolution != this->bestSolutionEver) {
             delete this->currentSolution;
         }
-        this->currentSolution = candidateSolution;
+        this->currentSolution = this->candidateSolution;
         this->neig_success++;
+        this->last_was_accepted = true;
+    } else {
+        this->last_was_accepted = false;
     }
-    //}
 
     //We update out best solution ever on each iteration
     if (this->currentSolution->getCost() < this->bestSolutionEver->getCost()) {
@@ -101,9 +92,10 @@ Solution *ProblemManager::getNextSolution() {
         this->bestSolutionEver = this->currentSolution;
     }
 
-    updateTemperature();
 
-    return candidateSolution;
+    this->candidateSolution->setProblemIteration(this->allTimeNeig);
+
+    return this->candidateSolution;
 }
 
 
@@ -117,26 +109,56 @@ Solution *ProblemManager::getBestSolutionEver() {
 }
 
 void ProblemManager::coolDown() {
-    this->temperature = this->originalTemperature / (1 + this->coolDownIteration++);
+    this->temperature = this->originalTemperature / (1 + ++this->coolDownIteration);
+    cout << "============================" << endl;
+    cout << "ENFRIAMIENTO: " << this->coolDownIteration << endl;
+    cout << "============================" << endl;
+    cout << "TEMPERATURA: " << std::setprecision(6) << fixed << this->temperature << std::setprecision(6) << fixed
+         << endl << endl;
 }
 
 void ProblemManager::updateTemperature() {
-
-    if (neig_gen > MAX_NEIG) {
+    if (neig_gen >= MAX_NEIG || neig_success >= MAX_SUCCESES) {
         this->neig_gen = 0;
-        this->coolDown();
-    }
-
-    if (neig_success > MAX_SUCCESES) {
         this->neig_success = 0;
         this->coolDown();
     }
-
     return;
 }
 
 bool ProblemManager::showMustGoOn() {
     return (this->allTimeNeig < INTERNAL_ITERATIONS);
 }
+
+void ProblemManager::printInitialSolution() {
+    cout << "SOLUCIÓN INICIAL:" << endl;
+    this->currentSolution->printSimple();
+    cout << "\tTEMPERATURA INICIAL: " << std::setprecision(6) << fixed << this->originalTemperature << endl << endl;
+
+}
+
+void ProblemManager::printCurrentSolution() {
+    cout << "ITERACION: " << this->allTimeNeig << endl;
+    this->candidateSolution->print();
+    cout << "\tDELTA: " << this->last_delta << endl;
+    cout << "\tTEMPERATURA: " << this->temperature << endl;
+    cout << "\tVALOR DE LA EXPONENCIAL: " << this->last_exp << endl;
+    if (this->last_was_accepted) {
+        cout << "\tSOLUCION CANDIDATA ACEPTADA" << endl;
+    }
+    cout << "\tCANDIDATAS PROBADAS: " << this->neig_gen << ", ACEPTADAS: " << this->neig_success << endl << endl;
+}
+
+void ProblemManager::printLastSolution() {
+
+    cout << endl << "MEJOR SOLUCION: " << endl;
+    this->bestSolutionEver->printSimpleWIte();
+    cout << "\tmu = " << std::setprecision(2) << fixed << MU << ", phi = " << std::setprecision(1) << fixed << PHI
+         << endl;
+
+
+}
+
+
 
 

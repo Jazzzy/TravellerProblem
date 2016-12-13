@@ -19,6 +19,8 @@ public:
 
     Solution *getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix);
 
+    Solution *getBestNeighbour(LowerTriangularMatrix<int> *distanceMatrix);
+
     void setCost(int cost);
 
     int getCost();
@@ -48,6 +50,7 @@ private:
     pair<int, int> genePair;
     int problemIteration;
     int currIter;
+    Solution * bestNeighbour;
 
     void switchValues(int *data, pair<int, int> p);
 

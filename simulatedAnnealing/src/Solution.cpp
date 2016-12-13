@@ -13,6 +13,7 @@ extern PairList *pList;
 
 Solution::Solution() {
     setGreedyData(this);
+    this->bestNeighbour = nullptr;
 }
 
 Solution::Solution(int *data, pair<int, int> p, int previousCost, LowerTriangularMatrix<int> *distanceMatrix) {
@@ -20,6 +21,7 @@ Solution::Solution(int *data, pair<int, int> p, int previousCost, LowerTriangula
     this->genePair = p;
     this->cost = getCostSwitching(p, previousCost, distanceMatrix);
     this->currIter = 0;
+    this->bestNeighbour = nullptr;
 }
 
 Solution::~Solution() {
@@ -37,7 +39,6 @@ void Solution::printData() {
 Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix) {
     Solution *newSolution = nullptr;
 
-
     if (currIter >= (pList->getAllValidPairsRef()->size())) {
         return nullptr;
     }
@@ -48,8 +49,6 @@ Solution *Solution::getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix)
     newSolution = new Solution(newData, p, this->getCost(), distanceMatrix);
     return newSolution;
 
-
-    return newSolution;
 }
 
 
@@ -155,29 +154,24 @@ void Solution::setData(int *newdata) {
 
 
 void Solution::print() {
-    cout << endl << "ITERACION: " << this->getProblemIteration() + 1 << endl;
+    //cout << endl << "ITERACION: " << this->getProblemIteration() + 1 << endl;
     cout << "\tINTERCAMBIO: (" << this->getGenePair().first << ", " << this->getGenePair().second << ")" << endl
          << "\tRECORRIDO: ";
     this->printData();
     cout << "\tFUNCION OBJETIVO (km): " << this->getCost() << endl;
-    //TODO: Complete remaining text to print
-    cout << endl;
 }
 
 void Solution::printSimple() {
     cout << "\tRECORRIDO: ";
-    this->print();
+    this->printData();
     cout << "\tFUNCION OBJETIVO (km): " << this->getCost() << endl;
-    //TODO: Complete remaining text to print
-    cout << endl;
 }
 
 void Solution::printSimpleWIte() {
     cout << "\tRECORRIDO: ";
-    this->print();
+    this->printData();
     cout << "\tFUNCION OBJETIVO (km): " << this->getCost() << endl;
-    //TODO: Complete remaining text to print and the iteration
-    cout << endl;
+    cout << "\tITERACION: " << this->problemIteration << endl;
 }
 
 int Solution::getProblemIteration() {
@@ -186,6 +180,31 @@ int Solution::getProblemIteration() {
 
 void Solution::setProblemIteration(int iteration) {
     this->problemIteration = iteration;
+}
+
+Solution *Solution::getBestNeighbour(LowerTriangularMatrix<int> *distanceMatrix) {
+
+    if (!this->bestNeighbour) {
+        Solution *newSolution = this->getNextNeighbour(distanceMatrix);
+        Solution *currentBest = newSolution;
+
+        newSolution = this->getNextNeighbour(distanceMatrix);
+
+        while (newSolution != nullptr) {
+            if (currentBest->getCost() > newSolution->getCost()) {
+                delete currentBest;
+                currentBest = newSolution;
+            } else {
+                delete newSolution;
+            }
+            newSolution = this->getNextNeighbour(distanceMatrix);
+        }
+
+        this->bestNeighbour = currentBest;
+    }
+
+    return this->bestNeighbour;
+
 }
 
 

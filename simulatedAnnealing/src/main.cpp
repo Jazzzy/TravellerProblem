@@ -17,13 +17,13 @@ int main(int argc, char **argv) {
     if (argc < 2) {
         cerr << "We need a file that contains the distances" << endl;
         return 1;
-    }else if (argc == 2) {
+    } else if (argc == 2) {
         rGen = new RandomGanerator();
         PM = new ProblemManager(argv[1]);
     } else if (argc == 3) {
         rGen = new RandomGanerator(argv[2]);
         PM = new ProblemManager(argv[1]);
-    }else{
+    } else {
         cerr << "Too many arguments." << endl;
         return EXIT_FAILURE;
     }
@@ -33,21 +33,20 @@ int main(int argc, char **argv) {
     currentSolution = PM->getCurrentSolution();
 
     {   //OUTPUT
-        cout << "RECORRIDO INICIAL" << endl;
-        currentSolution->printSimple();
+        PM->printInitialSolution();
     }
 
 
-    while(PM->showMustGoOn()) {
+    while (PM->showMustGoOn()) {
         currentSolution = PM->getNextSolution();
         {   //OUTPUT
-            currentSolution->print();
+            PM->printCurrentSolution();
         }
+        PM->updateTemperature();
     }
 
     {   //OUTPUT
-        cout << endl << endl << "MEJOR SOLUCION: " << endl;
-       PM->getBestSolutionEver()->printSimpleWIte();
+        PM->printLastSolution();
     }
 
     delete PM;
