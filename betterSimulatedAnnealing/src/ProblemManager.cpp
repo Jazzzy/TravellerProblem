@@ -2,6 +2,7 @@
 #include "FileParser.h"
 #include "PairList.hpp"
 #include "RandomGanerator.h"
+#include "DistanceMatrixWrapper.h"
 
 extern int sizeOfProblem;
 extern int maxNeig;
@@ -16,10 +17,14 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
     fillMatrix(pathOfDistances, this->distanceMatrix);
     globDistanceMatrix = this->distanceMatrix;
+
+    initWrapper();
+
+    this->reinitIteration = 0;
     this->currentSolution = new Solution(); //Greedy initialization
     this->currentSolution->setProblemIteration(0);
     this->bestSolutionEver = currentSolution;
-    this->currentIteration = 0;
+    this->iterationsWithoutImprovements = 0;
 
     this->originalTemperature = (MU / (-log(PHI))) * this->currentSolution->getCost();
     this->temperature = this->originalTemperature;
@@ -28,6 +33,8 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->neig_success = 0;
     this->allTimeNeig = 0;
     this->last_was_accepted = false;
+
+
 }
 
 ProblemManager::~ProblemManager() {
@@ -39,6 +46,7 @@ ProblemManager::~ProblemManager() {
         delete this->bestSolutionEver;
     }
     delete this->currentSolution;
+    destroyWrapper();
 }
 
 /*
@@ -78,7 +86,9 @@ Solution *ProblemManager::getNextSolution() {
         this->currentSolution = this->candidateSolution;
         this->neig_success++;
         this->last_was_accepted = true;
+        this->iterationsWithoutImprovements=0;
     } else {
+        this->iterationsWithoutImprovements++;
         this->last_was_accepted = false;
     }
 
@@ -89,6 +99,8 @@ Solution *ProblemManager::getNextSolution() {
     }
 
     this->candidateSolution->setProblemIteration(this->allTimeNeig);
+
+    this->candidateSolution->addFrequencyToMatrix();
 
     return this->candidateSolution;
 }
@@ -104,7 +116,7 @@ Solution *ProblemManager::getBestSolutionEver() {
 }
 
 void ProblemManager::coolDown() {
-    this->temperature = this->originalTemperature / (1 + ++this->coolDownIteration);
+    this->temperature = this->originalTemperature / (1+log(++this->coolDownIteration));
     cout << "============================" << endl;
     cout << "ENFRIAMIENTO: " << this->coolDownIteration << endl;
     cout << "============================" << endl;
@@ -113,11 +125,19 @@ void ProblemManager::coolDown() {
 }
 
 void ProblemManager::updateTemperature() {
+
     if (neig_gen >= MAX_NEIG || neig_success >= MAX_SUCCESES) {
         this->neig_gen = 0;
         this->neig_success = 0;
         this->coolDown();
     }
+
+    if (this->iterationsWithoutImprovements > ITE_LIMIT) {
+        this->iterationsWithoutImprovements = 0;
+        this->reinit();
+    }
+
+
     return;
 }
 
@@ -129,7 +149,6 @@ void ProblemManager::printInitialSolution() {
     cout << "SOLUCIÓN INICIAL:" << endl;
     this->currentSolution->printSimple();
     cout << "\tTEMPERATURA INICIAL: " << std::setprecision(6) << fixed << this->originalTemperature << endl << endl;
-
 }
 
 void ProblemManager::printCurrentSolution() {
@@ -151,6 +170,23 @@ void ProblemManager::printLastSolution() {
     cout << "\tmu = " << std::setprecision(2) << fixed << MU << ", phi = " << std::setprecision(1) << fixed << PHI
          << endl;
 
+
+}
+
+void ProblemManager::reinit() {
+
+    if (this->candidateSolution != this->bestSolutionEver && this->candidateSolution != this->currentSolution) {
+        delete this->candidateSolution;
+    }
+    if (this->bestSolutionEver != this->currentSolution) {
+        delete this->currentSolution;
+    }
+
+    this->currentSolution = new Solution();
+
+    cout << "============================" << endl;
+    cout << "REINICIALIZAMOS: " << this->reinitIteration++ << endl;
+    cout << "============================" << endl;
 
 }
 

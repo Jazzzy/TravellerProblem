@@ -8,7 +8,8 @@
 
 class ListOfNeighbours;
 
-#define MODULE_SOLUTIONS 1000
+#define MODULE_SOLUTIONS 100
+#define DIV_SOLUTION 5
 
 class Solution {
 public:
@@ -22,7 +23,7 @@ public:
 
     virtual ~Solution();
 
-    void deleteAllListBut(Solution * dontDelete);
+    void deleteAllListBut(Solution *dontDelete);
 
     Solution *getNextNeighbour(LowerTriangularMatrix<int> *distanceMatrix);
 
@@ -49,6 +50,8 @@ public:
     void printSimple();
 
     void printSimpleWIte();
+
+    void addFrequencyToMatrix();
 
 
 private:

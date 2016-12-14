@@ -21,7 +21,7 @@ float getWeightedCost(unsigned int x, unsigned int y) {
         return realCost;
     }
     double frec= frecMatrix->getElement(x, y);
-    double weightedCost = realCost + (MU * differenceInDist * ((frec / maxFrec)));
+    double weightedCost = realCost + (MU2 * differenceInDist * ((frec / maxFrec)));
     return (float) weightedCost;
 }
 

@@ -3,7 +3,7 @@
 
 
 
-#define MU 0.005
+#define MU2 0.005
 
 void initWrapper();
 

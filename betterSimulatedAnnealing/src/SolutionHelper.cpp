@@ -12,8 +12,8 @@ int getClosestCity(int source, vector<int> *validList) {
     float cost = std::numeric_limits<float>::max();
 
     for (std::vector<int>::const_iterator i = validList->begin(); i != validList->end(); ++i) {
-        //float costAux = getWeightedCost((unsigned int) source, (unsigned int) (*i));
-        float costAux = globDistanceMatrix->getElement((unsigned int) source, (unsigned int) (*i));
+        float costAux = getWeightedCost((unsigned int) source, (unsigned int) (*i));
+        //float costAux = globDistanceMatrix->getElement((unsigned int) source, (unsigned int) (*i));
         if ((costAux < cost) /*&& ((*i) != source)*/) {
             city = (*i);
             cost = costAux;
@@ -43,9 +43,8 @@ void setGreedyData(Solution *solution) {
     int value;
 
     value = getClosestCity(0, &validList);
+
     array[0] = value;
-
-
     validList.erase(std::remove(validList.begin(), validList.end(), value), validList.end());
     accumCost += localDistanceMatrix->getElement(0, (unsigned int) array[0]);
 

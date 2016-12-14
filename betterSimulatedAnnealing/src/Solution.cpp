@@ -2,6 +2,7 @@
 #include "RandomGanerator.h"
 #include "SolutionHelper.h"
 #include "PairList.hpp"
+#include "DistanceMatrixWrapper.h"
 
 
 using namespace std;
@@ -14,6 +15,8 @@ extern PairList *pList;
 Solution::Solution() {
     setGreedyData(this);
     this->listOfNeighbours = nullptr;
+    this->indexOfSolution = 0;
+    this->currIter = 0;
     this->indexOfSolution = 0;
 }
 
@@ -198,7 +201,8 @@ Solution *Solution::getBestNeighbour(LowerTriangularMatrix<int> *distanceMatrix)
         }
     }
 
-    return this->listOfNeighbours->getSolutionAt(indexOfSolution++ % MODULE_SOLUTIONS);
+    int realIndex = (int) floor(indexOfSolution++ / DIV_SOLUTION);
+    return this->listOfNeighbours->getSolutionAt(realIndex % MODULE_SOLUTIONS);
 
 }
 
@@ -206,6 +210,14 @@ void Solution::deleteAllListBut(Solution *dontDelete) {
     this->listOfNeighbours->deleteAllBut(dontDelete);
 }
 
+
+void Solution::addFrequencyToMatrix() {
+    addFrec(0, (unsigned int) data[0]);
+    for (int i = 0; i < sizeOfProblem - 2; i++) {
+        addFrec((unsigned int) data[i], (unsigned int) data[i + 1]);
+    }
+    addFrec((unsigned int) data[sizeOfProblem - 2], 0);
+}
 
 
 
