@@ -33,6 +33,7 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->neig_success = 0;
     this->allTimeNeig = 0;
     this->last_was_accepted = false;
+    this->once = 0;
 
 
 }
@@ -77,6 +78,13 @@ Solution *ProblemManager::getNextSolution() {
     this->last_delta = delta;
     this->last_exp = exponential;
 
+    if (delta <= 0) {
+        this->iterationsWithoutImprovements = 0;
+
+    } else {
+        this->iterationsWithoutImprovements++;
+    }
+
     if (delta < 0 || randomValue < exponential) {
         //We take the solution as the current one
         if (this->currentSolution != this->bestSolutionEver) {
@@ -86,9 +94,7 @@ Solution *ProblemManager::getNextSolution() {
         this->currentSolution = this->candidateSolution;
         this->neig_success++;
         this->last_was_accepted = true;
-        this->iterationsWithoutImprovements=0;
     } else {
-        this->iterationsWithoutImprovements++;
         this->last_was_accepted = false;
     }
 
@@ -115,8 +121,18 @@ Solution *ProblemManager::getBestSolutionEver() {
     return this->bestSolutionEver;
 }
 
+
 void ProblemManager::coolDown() {
-    this->temperature = this->originalTemperature / (1+log(++this->coolDownIteration));
+    if (this->temperature > COOLDOWN_LIMIT) {
+        this->temperature = this->originalTemperature / (1 + (++this->coolDownIteration));
+    } else {
+        if (!this->once) {
+            this->originalTemperaturePartial = this->temperature;
+            this->once = true;
+        }
+        this->temperature = this->originalTemperaturePartial / (1 + log(++this->coolDownIteration));
+    }
+
     cout << "============================" << endl;
     cout << "ENFRIAMIENTO: " << this->coolDownIteration << endl;
     cout << "============================" << endl;
@@ -160,14 +176,15 @@ void ProblemManager::printCurrentSolution() {
     if (this->last_was_accepted) {
         cout << "\tSOLUCION CANDIDATA ACEPTADA" << endl;
     }
-    cout << "\tCANDIDATAS PROBADAS: " << this->neig_gen << ", ACEPTADAS: " << this->neig_success << endl << endl;
+    cout << "\tCANDIDATAS PROBADAS: " << this->neig_gen << ", ACEPTADAS: " << this->neig_success << endl;
+    cout << "\tCOSTE DE LA MEJOR: " << this->bestSolutionEver->getCost() << endl << endl;
 }
 
 void ProblemManager::printLastSolution() {
 
     cout << endl << "MEJOR SOLUCION: " << endl;
     this->bestSolutionEver->printSimpleWIte();
-    cout << "\tmu = " << std::setprecision(2) << fixed << MU << ", phi = " << std::setprecision(1) << fixed << PHI
+    cout << "\tmu = " << std::setprecision(4) << fixed << MU << ", phi = " << std::setprecision(1) << fixed << PHI
          << endl;
 
 

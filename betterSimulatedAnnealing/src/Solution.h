@@ -9,7 +9,7 @@
 class ListOfNeighbours;
 
 #define MODULE_SOLUTIONS 100
-#define DIV_SOLUTION 5
+#define DIV_SOLUTION 50
 
 class Solution {
 public:

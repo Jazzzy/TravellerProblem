@@ -4,12 +4,13 @@
 
 #include "Solution.h"
 
-#define PHI 0.80
-#define MU 0.0006
+#define PHI 0.50
+#define MU 0.008
 #define INTERNAL_ITERATIONS 10000
 #define MAX_SUCCESES 20
 #define MAX_NEIG 50
-#define ITE_LIMIT 100
+#define ITE_LIMIT 60
+#define COOLDOWN_LIMIT 2
 
 class ProblemManager {
 public:
@@ -42,9 +43,11 @@ private:
     Solution *candidateSolution;
     int iterationsWithoutImprovements;
     double originalTemperature;
+    double originalTemperaturePartial;
     double temperature;
     int coolDownIteration;
     int reinitIteration;
+    bool once;
 
     void coolDown();
 
