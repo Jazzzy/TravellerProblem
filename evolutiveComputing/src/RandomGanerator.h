@@ -18,6 +18,12 @@ public:
 
     double getRandomDouble();
 
+    int getRandomCity();
+
+    int getRandomPosition();
+
+    int getRandomCross();
+
     virtual ~RandomGanerator();
 
 private:

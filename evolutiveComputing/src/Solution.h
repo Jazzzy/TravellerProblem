@@ -7,7 +7,10 @@
 
 class Solution {
 public:
+
     Solution();
+
+    Solution(Solution * original);
 
     virtual ~Solution();
 
@@ -15,13 +18,15 @@ public:
 
     int getCost();
 
+    const int getCostConst() const;
+
     void setData(int *newdata);
 
     void printData();
 
-    void print();
+    int getElemAt(int pos);
 
-    void printSimple();
+    void printSimpleIndividual();
 
     void switchValues(int *data, pair<int, int> p);
 

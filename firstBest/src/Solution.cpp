@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   Solution.cpp
  * Author: ruben.osorio0
- * 
+ *
  * Created on 18 de noviembre de 2016, 16:04
  */
 
@@ -138,14 +138,3 @@ pair<int, int> Solution::getGenePair() {
 int Solution::getCurrIte() {
     return currIte;
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -16,50 +16,53 @@ ProblemManager::ProblemManager(char *pathOfDistances) {
     this->distanceMatrix = new LowerTriangularMatrix<int>((unsigned int) sizeOfProblem);
     fillMatrix(pathOfDistances, this->distanceMatrix);
     globDistanceMatrix = this->distanceMatrix;
-    this->currentSolution = new Solution();
-    this->bestSolutionEver = currentSolution;
+
+    this->problemIteration = 0;
+    this->currentPopulation = new Population(100);
+    this->currentPopulation->generateFirstPopulation();
+    this->currentPopulation->evaluateWholePopulation();
+
 }
 
 ProblemManager::~ProblemManager() {
     delete this->distanceMatrix;
-    if (this->bestSolutionEver != this->currentSolution) {
-        delete this->bestSolutionEver;
-    }
-    delete this->currentSolution;
 }
-
-
-Solution *ProblemManager::getNextSolution() {
-
-    return nullptr;
-}
-
-
-Solution *ProblemManager::getCurrentSolution() {
-    return this->currentSolution;
-}
-
-
-Solution *ProblemManager::getBestSolutionEver() {
-    return this->bestSolutionEver;
-}
-
 
 bool ProblemManager::showMustGoOn() {
-    return true;
+    return false;
 }
 
-void ProblemManager::printInitialSolution() {
+void ProblemManager::printInitialPopulation() {
+    currentPopulation->printFirstPopulation();
     cout << endl;
 }
 
-void ProblemManager::printCurrentSolution() {
-    cout << endl;
+void ProblemManager::doAndPrint_SELECCION() {
+    this->problemIteration++;
+
+    cout << "ITERACION: " << this->problemIteration << ", SELECCION" << endl;
+    this->newPopulation = new Population(100);
+
+    for (int i = 0; i < REAL_POPULATION_SIZE - 2; i++) {
+        cout << "\tTORNEO " << i << ": ";
+        Solution *winner = this->currentPopulation->doTournament(rGen->getRandomPosition(), rGen->getRandomPosition());
+        this->newPopulation->addIndividual(winner);
+    }
+
 }
 
-void ProblemManager::printLastSolution() {
-    cout << endl;
+void ProblemManager::doAndPrint_CROSS() {
+
 }
+
+void ProblemManager::doAndPrint_MUTATION() {
+
+}
+
+void ProblemManager::doAndPrint_REPLACEMENT() {
+
+}
+
 
 
 

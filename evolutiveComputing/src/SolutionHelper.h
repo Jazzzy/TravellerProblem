@@ -5,4 +5,8 @@
 
 void setGreedyData(Solution *solution);
 
+void setGreedyDataButFirst(Solution *solution);
+
+int calculateCostOf(Solution* solution);
+
 #endif

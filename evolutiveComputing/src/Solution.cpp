@@ -11,8 +11,13 @@ extern PairList *pList;
 
 
 Solution::Solution() {
-    this->data = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
     this->cost = 0;
+}
+
+Solution::Solution(Solution *original) {
+    this->data = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
+    memcpy(this->data, original->data, sizeof(int) * (sizeOfProblem - 1));
+    this->cost = original->cost;
 }
 
 Solution::~Solution() {
@@ -24,7 +29,6 @@ void Solution::printData() {
     for (int i = 0; i < sizeOfProblem - 1; i++) {
         cout << data[i] << " ";
     }
-    cout << endl;
 }
 
 
@@ -47,14 +51,24 @@ void Solution::setData(int *newdata) {
     this->data = newdata;
 }
 
-
-void Solution::print() {
-    this->printData();
+int Solution::getElemAt(int pos) {
+    return this->data[pos];
 }
 
-void Solution::printSimple() {
+void Solution::printSimpleIndividual() {
+    cout << "{FUNCION OBJETIVO (km): " << this->getCost() << ", RECORRIDO: ";
     this->printData();
+    cout << "}" << endl;
+
 }
+
+const int Solution::getCostConst() const {
+    return this->cost;
+}
+
+
+
+
 
 
 

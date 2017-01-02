@@ -3,7 +3,7 @@
 
 
 #include "Solution.h"
-
+#include "Population.hpp"
 
 
 class ProblemManager {
@@ -12,24 +12,24 @@ public:
 
     virtual ~ProblemManager();
 
-    Solution *getNextSolution();
-
-    Solution *getCurrentSolution();
-
-    Solution *getBestSolutionEver();
-
-    void printInitialSolution();
-
-    void printCurrentSolution();
-
-    void printLastSolution();
-
     bool showMustGoOn();
 
+    void printInitialPopulation();
+
+    void doAndPrint_SELECCION();
+
+    void doAndPrint_CROSS();
+
+    void doAndPrint_MUTATION();
+
+    void doAndPrint_REPLACEMENT();
+
+
 private:
-    Solution *currentSolution;
+    Population *currentPopulation;
+    Population *newPopulation;
+
     LowerTriangularMatrix<int> *distanceMatrix;
-    Solution *bestSolutionEver;
     unsigned int problemIteration;
 };
 

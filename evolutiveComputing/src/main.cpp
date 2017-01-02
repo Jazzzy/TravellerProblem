@@ -1,12 +1,12 @@
 #include <cstdlib>
 #include "FileParser.h"
-#include "Solution.h"
 #include "RandomGanerator.h"
 #include "ProblemManager.hpp"
+#include "Population.hpp"
 
 using namespace std;
 
-int sizeOfProblem = 100;
+int sizeOfProblem = 10;
 RandomGanerator *rGen;
 
 
@@ -29,23 +29,20 @@ int main(int argc, char **argv) {
     }
 
 
-    Solution *currentSolution;
-    currentSolution = PM->getCurrentSolution();
-
     {   //OUTPUT
-        PM->printInitialSolution();
+        PM->printInitialPopulation();
     }
+
+    PM->doAndPrint_SELECCION();
 
 
     while (PM->showMustGoOn()) {
-        currentSolution = PM->getNextSolution();
+
         {   //OUTPUT
-            PM->printCurrentSolution();
         }
     }
 
     {   //OUTPUT
-        PM->printLastSolution();
     }
 
     delete PM;

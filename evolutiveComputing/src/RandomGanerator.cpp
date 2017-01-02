@@ -2,6 +2,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <iostream>
 #include "FileParser.h"
+#include "Population.hpp"
 
 
 struct Generator {
@@ -36,7 +37,7 @@ float RandomGanerator::getNextReadFloat() {
 int *RandomGanerator::getRandomArray() {
 
     if (!randVec) {
-        srand(time(NULL));
+        srand((unsigned int) time(NULL));
         int *array = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
 
         std::vector<int> aux((unsigned long) (sizeOfProblem - 1));
@@ -55,14 +56,12 @@ int *RandomGanerator::getRandomArray() {
 
         return array;
     } else {
-
         int *array = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
 
         std::vector<int> aux((unsigned long) (sizeOfProblem - 1));
         std::generate(aux.begin(), aux.end(), Generator());
         std::vector<int>::const_iterator it, end = aux.end();
 
-        int position;
         int value;
 
         for (int i = 0; i < sizeOfProblem - 1; i++) {
@@ -71,13 +70,13 @@ int *RandomGanerator::getRandomArray() {
             value = (int) fvalue + 1;
 
             while ((std::find(aux.begin(), aux.end(), value) == aux.end())) {
-                value = (value + 1) % (sizeOfProblem - 1);
+                value = (value + 1) % (sizeOfProblem);
             }
             aux.erase(std::remove(aux.begin(), aux.end(), value), aux.end());
             array[i] = value;
         }
-        return array;
 
+        return array;
     }
 }
 
@@ -105,10 +104,12 @@ RandomGanerator::~RandomGanerator() {
 }
 
 int RandomGanerator::getRandomInt() {
-    if (randVec)
-        return (int) floor(getNextReadFloat() * (sizeOfProblem - 1));
-    else
+    if (randVec) {
+        int value = (int) floor(getNextReadFloat() * (sizeOfProblem - 1));
+        return value;
+    } else {
         return (rand() % (sizeOfProblem - 1));
+    }
 }
 
 double RandomGanerator::getRandomDouble() {
@@ -117,5 +118,28 @@ double RandomGanerator::getRandomDouble() {
     else
         return (float) rand() / (float) (RAND_MAX);
 }
+
+int RandomGanerator::getRandomCity() {
+    double random = getRandomDouble();
+    if (random == 1.0) return (sizeOfProblem - 1);
+    return (int) (floor((random * (sizeOfProblem - 1))) + 1);
+}
+
+int RandomGanerator::getRandomPosition() {
+    double random = getRandomDouble();
+    if (random == 1.0) return (REAL_POPULATION_SIZE - 1);
+
+    return (int) floor(random * (REAL_POPULATION_SIZE));
+}
+
+int RandomGanerator::getRandomCross() {
+    double random = getRandomDouble();
+    if (random == 1.0) return (sizeOfProblem - 2);
+
+    return (int) floor(random * (sizeOfProblem - 1));
+}
+
+
+
 
 
