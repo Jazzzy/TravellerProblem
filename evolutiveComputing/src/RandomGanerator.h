@@ -27,9 +27,9 @@ public:
     virtual ~RandomGanerator();
 
 private:
-    std::vector<float> *randVec;
+    std::vector<double> *randVec;
 
-    float getNextReadFloat();
+    double getNextReadFloat();
 
 
 };

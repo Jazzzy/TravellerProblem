@@ -7,8 +7,13 @@
 
 
 #include "Solution.h"
+#include <deque>
+
 
 #define REAL_POPULATION_SIZE 100
+#define CROSS_LIMIT 0.9
+#define MUTATION_LIMIT 0.01
+
 
 class Population {
 public:
@@ -21,18 +26,30 @@ public:
 
     void evaluateWholePopulation();
 
-    void printFirstPopulation();
+    void printPopulation();
 
     void sortPopulation();
 
     void addIndividual(Solution *solution);
 
-    Solution * doTournament(int position_a, int position_b);
+    void addIndividualAtFront(Solution *solution);
+
+
+    Solution *doTournament(int position_a, int position_b);
+
+    Solution *getIndividualAt(int position);
+
+    void doCross(int position_a, int position_b, double random);
+
+    void doMutation(int position);
 
 
 private:
-    std::vector<Solution*> individuals;
+    std::deque<Solution *> individuals;
     unsigned int size;
+
+    int *doOrderCrossover(pair<int, int> cuts, Solution *indiv_a, Solution *indiv_b);
+
 };
 
 

@@ -7,7 +7,7 @@
 
 void fillMatrix(char *path, LowerTriangularMatrix<int> *matrix);
 
-void fillVectorOfRandoms(char *path, std::vector<float> *vector);
+void fillVectorOfRandoms(char *path, std::vector<double> *vector);
 
 int getSizeOfProblem(char *path);
 

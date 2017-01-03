@@ -56,7 +56,7 @@ const int MAX_CHARS_PER_LINE2 = 64;
 const int MAX_TOKENS_PER_LINE2 = 2;
 const char *const DELIMITER2 = "\n";
 
-void fillVectorOfRandoms(char *path, std::vector<float> *vector) {
+void fillVectorOfRandoms(char *path, std::vector<double> *vector) {
 
     ifstream inputStream;
     inputStream.open(path);

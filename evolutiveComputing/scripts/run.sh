@@ -5,4 +5,5 @@ cd ../bin
 cat ./ultimaTraza.txt
 echo "---------FIN DE LA SALIDA DEL PROGRAMA---------"
 echo "Ejecutando diff entre la traza generada y la del campus virtual: "
-diff ultimaTraza.txt ./arguments/traza_ce_10_2016.txt
+diff ultimaTraza.txt ./arguments/traza_ce_10_2016.txt > ultimoDiff.txt
+head -n100 ultimoDiff.txt

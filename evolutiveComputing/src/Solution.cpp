@@ -10,11 +10,14 @@ extern RandomGanerator *rGen;
 extern PairList *pList;
 
 
-Solution::Solution() {
+Solution::Solution(unsigned int problemIteration) {
+    this->problemIteration = problemIteration;
+    this->data = nullptr;
     this->cost = 0;
 }
 
-Solution::Solution(Solution *original) {
+Solution::Solution(Solution *original, unsigned int problemIteration) {
+    this->problemIteration = problemIteration;
     this->data = (int *) malloc(sizeof(int) * (sizeOfProblem - 1));
     memcpy(this->data, original->data, sizeof(int) * (sizeOfProblem - 1));
     this->cost = original->cost;
@@ -32,10 +35,10 @@ void Solution::printData() {
 }
 
 
-void Solution::switchValues(int *data, pair<int, int> p) {
-    int aux = data[p.first];
-    data[p.first] = data[p.second];
-    data[p.second] = aux;
+void Solution::switchValues(pair<int, int> p) {
+    int aux = this->data[p.first];
+    this->data[p.first] = this->data[p.second];
+    this->data[p.second] = aux;
     return;
 }
 
@@ -48,6 +51,9 @@ int Solution::getCost() {
 }
 
 void Solution::setData(int *newdata) {
+    if (this->data != nullptr) {
+        free(this->data);
+    }
     this->data = newdata;
 }
 
@@ -65,6 +71,16 @@ void Solution::printSimpleIndividual() {
 const int Solution::getCostConst() const {
     return this->cost;
 }
+
+int *Solution::getData() {
+    return this->data;
+}
+
+unsigned int Solution::getProblemIteration() {
+    return this->problemIteration;
+}
+
+
 
 
 

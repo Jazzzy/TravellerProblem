@@ -8,9 +8,9 @@
 class Solution {
 public:
 
-    Solution();
+    Solution(unsigned int problemIteration);
 
-    Solution(Solution * original);
+    Solution(Solution *original, unsigned int problemIteration);
 
     virtual ~Solution();
 
@@ -28,12 +28,17 @@ public:
 
     void printSimpleIndividual();
 
-    void switchValues(int *data, pair<int, int> p);
+    void switchValues(pair<int, int> p);
+
+    int *getData();
+
+    unsigned int getProblemIteration();
 
 
 private:
     int *data;
     int cost;
+    unsigned int problemIteration;
 };
 
 #endif /* SOLUTION_H */

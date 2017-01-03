@@ -24,12 +24,12 @@ RandomGanerator::RandomGanerator() {
 
 
 RandomGanerator::RandomGanerator(char *file) {
-    randVec = new std::vector<float>();
+    randVec = new std::vector<double>();
     fillVectorOfRandoms(file, randVec);
 }
 
-float RandomGanerator::getNextReadFloat() {
-    float number = randVec->front();
+double RandomGanerator::getNextReadFloat() {
+    double number = randVec->front();
     randVec->erase(randVec->begin());
     return number;
 }

@@ -4,7 +4,8 @@
 
 #include "Solution.h"
 #include "Population.hpp"
-
+#define MAX_ITERATIONS 1000
+#define ELITIST_NUMBER 2
 
 class ProblemManager {
 public:
@@ -24,13 +25,14 @@ public:
 
     void doAndPrint_REPLACEMENT();
 
+    void calcAndPrintBestIndividual();
+
 
 private:
     Population *currentPopulation;
     Population *newPopulation;
 
     LowerTriangularMatrix<int> *distanceMatrix;
-    unsigned int problemIteration;
 };
 
 
