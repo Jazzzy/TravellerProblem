@@ -1,4 +1,4 @@
-# Tabu Search
+# Traveller Problem
 
 In order to compile and run this program you just need to go to the /scripts folder located in the root of the project. There you can find some scripts:
 
